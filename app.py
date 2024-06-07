@@ -10,5 +10,13 @@ def index():
 def dashboard():
     return render_template("dashboard.html")
 
+@app.route("/home")
+def dashboard():
+    return render_template("home.html")
+
+@app.route("/settings")
+def dashboard():
+    return render_template("settings.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
