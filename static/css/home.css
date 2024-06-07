@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Permanent+Marker&family=Seymour+One&display=swap');
+
+.c100vh{
+	height: 100vh;
+}
+
+.huge-title{
+	font-size: 85px;
+	font-family: 'Permanent Marker', cursive;
+	padding: 15px 0;
+}
