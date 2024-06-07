@@ -8,6 +8,7 @@ CREATE DATABASE shit_app;
 -- Creating the User table
 CREATE TABLE "user" (
     "id" SERIAL PRIMARY KEY,
+    "nickname" VARCHAR(255) NOT NULL,
     "email" VARCHAR(255) UNIQUE NOT NULL,
     "password" VARCHAR(255) NOT NULL,
     "name" VARCHAR(50) NOT NULL,
@@ -50,6 +51,7 @@ CREATE TABLE "shit" (
     "colorID" INT REFERENCES shit_color(id) NOT NULL,
     "dimension" INT CHECK (level_of_satisfaction >= 0 AND level_of_satisfaction <= 10),
     "level_of_satisfaction" INT CHECK (level_of_satisfaction >= 0 AND level_of_satisfaction <= 10),
+    "userID" INT REFERENCES "user"(id) ON DELETE CASCADE,
     "notes" TEXT
 );
 
@@ -60,9 +62,7 @@ CREATE TABLE "user_team" (
     PRIMARY KEY ("userID", "teamID")
 );
 
--- Creating the UserShit table to represent the many-to-many relationship between Users and Shit
-CREATE TABLE "user_shit" (
-    "userID" INT REFERENCES "user"(id) ON DELETE CASCADE,
-    "shitID" INT REFERENCES "shit"(id) ON DELETE CASCADE,
-    PRIMARY KEY ("userID", "shitID")
-);
+
+
+
+
