@@ -126,6 +126,10 @@ a.btn.filled, button.btn.filled {
 	padding: 10px 20px;
 	border-radius: 25px;
 }
+a.btn.filled.onprimary, button.btn.filled.onprimary {
+    background-color: var(--on-primary);
+    color: var(--primary);
+}
 a.btn.text, button.btn.text {
 	background-color: transparent;
 	color: var(--on-surface-primary);
@@ -135,6 +139,9 @@ a.btn.text:hover, button.btn.text:hover{
 }
 a.btn.filled:hover, button.btn.filled:hover{
 	background-color: var(--primary-hover);
+}
+a.btn.filled.onprimary:hover, button.btn.filled.onprimary:hover{
+    background-color: var(--primary-text-hover);
 }
 a.btn.outlined, button.btn.outlined{
 	background-color: transparent;
@@ -354,18 +361,17 @@ code, .mono{
 
 
 .main-container {
-	padding-left: 88px;
 	background-color: var(--surface);
 	width: 100%;
 	min-height: 100vh;
 	min-height: 100dvh;
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
+    align-items: center;
 	color: var(--on-surface);
 }
 
 .main {
-	padding: 0 15%;
 	max-width: 980px;
 	width: 100%;
 	display: flex;
