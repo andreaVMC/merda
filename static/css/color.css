@@ -1,0 +1,18 @@
+:root {
+	--surface: #f7f7f7;
+	--on-surface: #000;
+	--on-surface-primary: #eea83e;
+
+	--primary: #854836; /* Brown */
+	--on-primary: #ffffff; /* White for text on primary */
+	--primary-hover: #6f3a2c; /* Darker shade for hover effect */
+	--primary-text-hover: #d8a483; /* Lighter brown for text on hover */
+
+	--surface-variant: #e0e0e0; /* Light grey for surface variant */
+	--surface-variant-hover-bg: linear-gradient(0deg, rgba(196, 199, 197, .08), rgba(196, 199, 197, .08));
+	--on-surface-variant: #343431; /* Darker grey for text on surface variant */
+
+	--muted: #757575; /* Mid-tone grey for muted text */
+
+	--logo: #000; /* Black for logo to stand out on light background */
+}

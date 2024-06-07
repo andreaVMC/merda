@@ -11,11 +11,11 @@ def dashboard():
     return render_template("dashboard.html")
 
 @app.route("/home")
-def dashboard():
+def home():
     return render_template("home.html")
 
 @app.route("/settings")
-def dashboard():
+def settings():
     return render_template("settings.html")
 
 if __name__ == "__main__":

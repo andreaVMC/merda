@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Permanent+Marker&family=Seymour+One&display=swap');
+
+.c100vh{
+	height: 100vh;
+}
+
+.huge-title{
+	font-size: 85px;
+	font-family: 'Permanent Marker', cursive;
+	padding: 15px 0;
+}
+
+.navbar {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    background: linear-gradient(to bottom, var(--surface-variant) 0%, transparent 100%);
+    backdrop-filter: blur(1px);
+    font-family: 'Montserrat', sans-serif;
+    height: 69px;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-inner {
+    width: 100%;
+    padding: 0 15%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    max-width: 980px;
+}
+
+.nav-links ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-links li {
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--on-surface-variant);
+    display: block;
+    padding: 1em;
+}
+
+.hamburger {
+    top: 1em;
+    right: 1rem;
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+}
+
+.hamburger .line {
+    height: 3px;
+    width: 100%;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+}
