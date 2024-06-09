@@ -1,6 +1,11 @@
 from flask import Flask, render_template, url_for
+from flask_sqlalchemy import SQLAlchemy
 
+DB = SQLAlchemy()
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres@localhost:5432/shit_app'
+app.config['SECRET_KEY'] = 'a'
+DB.init_app(app)
 
 @app.route("/")
 def index():
