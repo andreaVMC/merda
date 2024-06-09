@@ -141,7 +141,7 @@ a.btn.filled:hover, button.btn.filled:hover{
 	background-color: var(--primary-hover);
 }
 a.btn.filled.onprimary:hover, button.btn.filled.onprimary:hover{
-    background-color: var(--primary-text-hover);
+	background-color: var(--on-primary-hover);
 }
 a.btn.outlined, button.btn.outlined{
 	background-color: transparent;
@@ -208,6 +208,9 @@ p, h1{
 	align-items: center;
 	justify-content: center;
 }
+.flex-column{
+    flex-direction: column;
+}
 .flex-col-justify-center{
 	display: flex;
 	flex-direction: column;
@@ -218,8 +221,13 @@ p, h1{
     grid-template-columns: 1fr 1fr;
     place-items: center;
 }
+.grid-center-3col{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+}
 @media screen and (max-width: 600px) {
-    .grid-center-2col {
+    .grid-center-2col, .grid-center-3col {
         grid-template-columns: 1fr;
     }
 }

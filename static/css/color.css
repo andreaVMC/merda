@@ -5,6 +5,7 @@
 
 	--primary: #603224; /* Brown */
 	--on-primary: #ffffff; /* White for text on primary */
+	--on-primary-hover: #cac1be;
 	--primary-hover: #6f3a2c; /* Darker shade for hover effect */
 	--primary-text-hover: #d8a483; /* Lighter brown for text on hover */
 

@@ -14,7 +14,6 @@
     width: 100%;
     position: fixed;
     top: 0;
-    background: linear-gradient(to bottom, var(--surface-variant) 0%, transparent 100%);
     backdrop-filter: blur(1px);
     font-family: 'Montserrat', sans-serif;
     height: 69px;
@@ -74,7 +73,7 @@
     margin: 0;
     padding: 0;
     position: relative;
-    height: 500px;
+    height: 100vh;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -82,32 +81,22 @@
     flex-direction: column;
     .content {
         color: var(--on-primary);
-        
     }
-  }
-  #curved-border {
+}
+#curved-border {
     bottom: 0;
     position: absolute;
     width: 100%;
     path {
-      fill: var(--surface);
+        fill: var(--surface);
     }
-  }
-  #curved-border2 {
+}
+#curved-border2 {
     top: 0;
     position: absolute;
     transform: rotate(180deg);
     width: 100%;
     path {
-      fill: var(--surface);
+        fill: var(--surface);
     }
-  }
-  .post-header {
-    background: white;
-    margin: 0;
-    height: 100vh;
-    width: 100%; 
-    .content {
-      padding: 0 3rem;
-    }
-  }
+}
