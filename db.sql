@@ -46,7 +46,7 @@ VALUES
 -- Creating the Shit table
 CREATE TABLE "shit" (
     "id" SERIAL PRIMARY KEY,
-    "shape" VARCHAR(50) NOT NULL,
+    "shape" INT CHECK (shape >=1 AND shape <= 7) NOT NULL,
     "quantity" INT CHECK (quantity >= 0 AND quantity <= 10),
     "colorID" INT REFERENCES shit_color(id) NOT NULL,
     "dimension" INT CHECK (level_of_satisfaction >= 0 AND level_of_satisfaction <= 10),
