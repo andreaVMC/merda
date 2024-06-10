@@ -1,11 +1,94 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, flash, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField, DateField, DecimalField, SelectField
+from wtforms.validators import InputRequired, Length, Email, ValidationError, Optional
 
-DB = SQLAlchemy()
+from flask_bcrypt import Bcrypt
+
+db = SQLAlchemy()
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres@localhost:5432/shit_app'
 app.config['SECRET_KEY'] = 'a'
-DB.init_app(app)
+db.init_app(app)
+
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+class User(db.Model, UserMixin):
+    __tablename__ = 'user'
+
+    def __init__(self, nickname, email, password, name, surname, sex=None, date_of_birth=None, weight=None):
+        self.nickname = nickname
+        self.email = email
+        self.password = password
+        self.name = name
+        self.surname = surname
+        self.sex = sex
+        self.date_of_birth = date_of_birth
+        self.weight = weight
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nickname = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+    surname = db.Column(db.String(50), nullable=False)
+    sex = db.Column(db.String(1), nullable=True, check_constraint='sex IN (\'M\', \'F\')')
+    date_of_birth = db.Column(db.Date, nullable=True)
+    weight = db.Column(db.Numeric(5, 2), nullable=True, check_constraint='weight >= 0')
+
+
+class RegisterForm(FlaskForm):
+    nickname = StringField(validators=[
+        InputRequired(), Length(max=255)], render_kw={"placeholder": "Nickname"})
+    
+    email = StringField(validators=[
+        InputRequired(), Email(), Length(max=255)], render_kw={"placeholder": "Email"})
+    
+    password = PasswordField(validators=[
+        InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+    
+    name = StringField(validators=[
+        InputRequired(), Length(max=50)], render_kw={"placeholder": "Name"})
+    
+    surname = StringField(validators=[
+        InputRequired(), Length(max=50)], render_kw={"placeholder": "Surname"})
+    
+    sex = SelectField(choices=[('M', 'Male'), ('F', 'Female')],
+                      validators=[Optional()], render_kw={"placeholder": "Sex"})
+    
+    date_of_birth = DateField(validators=[Optional()], format='%Y-%m-%d', render_kw={"placeholder": "Date of Birth"})
+    
+    weight = DecimalField(validators=[Optional()], places=2, rounding=None, render_kw={"placeholder": "Weight"})
+    
+    submit = SubmitField('Register')
+    
+    def validate_email(self, email):
+        existing_user_email = User.query.filter_by(email=email.data).first()
+        if existing_user_email:
+            raise ValidationError('That email already exists. Please log in.')
+
+
+
+class LoginForm(FlaskForm):
+    email = StringField(validators=[
+                           InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "email"})
+
+    password = PasswordField(validators=[
+                             InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+
+    submit = SubmitField('Login')
 
 @app.route("/")
 def index():
@@ -19,13 +102,55 @@ def home():
 def settings():
     return render_template("logged/settings.html")
 
-@app.route("/login")
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template("login.html")
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user:
+            if bcrypt.check_password_hash(user.password, form.password.data):
+                login_user(user)
+                return redirect(url_for('dashboard'))
+    return render_template('login.html', form=form)
 
-@app.route("/signup")
-def signup():
-    return render_template("signup.html")
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+
+    if request.method == 'POST':
+        print("Here 1")
+        if form.validate_on_submit():
+            print("Here 2")
+            hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+            new_user = User(
+                nickname=form.nickname.data,
+                email=form.email.data,
+                password=hashed_password,
+                name=form.name.data,
+                surname=form.surname.data,
+                sex=form.sex.data,
+                date_of_birth=form.date_of_birth.data,
+                weight=form.weight.data
+            )
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                flash('Your account has been created! You are now able to log in', 'success')
+                print("Here 3")
+                return redirect(url_for('login'))
+            except Exception as e:
+                db.session.rollback()
+                flash('Error creating user: ' + str(e), 'danger')
+        else:
+            flash('Form validation failed', 'danger')
+            for field, errors in form.errors.items():
+                for error in errors:
+                    flash(f"Error in {getattr(form, field).label.text}: {error}", 'danger')
+            # Log the errors to the console for debugging
+            print("Form validation errors:", form.errors)
+
+    return render_template('register.html', form=form)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

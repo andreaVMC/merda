@@ -14,7 +14,7 @@ CREATE TABLE "user" (
     "name" VARCHAR(50) NOT NULL,
     "surname" VARCHAR(50) NOT NULL,
     "sex" CHAR(1) CHECK (sex IN ('M', 'F')),
-    "age" INT CHECK (age >= 0),
+    "date_of_birth" DATE,
     "weight" DECIMAL(5, 2) CHECK (weight >= 0)
 );
 
