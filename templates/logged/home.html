@@ -12,10 +12,52 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- jQuery 3.6.0 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style>
+        .shit-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .shit-card h3 {
+            margin-top: 0;
+        }
+        .user-info {
+            color: #777;
+            font-size: 14px;
+        }
+        .shit-notes {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    {% include 'logged/includes/sidebar.html' %}
 
-    <h1>Home</h1>
+<body>
+    <div class="container mt-5">
+        
+    </div>
+</body>
+</html>
+
+    {% include 'logged/includes/sidebar.html' %}
+        <div class="container mt-5">
+            <h1 class="mb-4">Home</h1>
+        <div class="shit-list">
+            {% for shit, user in shits %}
+            <div class="shit-card">
+                <h3>{{ shit.shape }}</h3>
+                <p>Quantity: {{ shit.quantity }}</p>
+                <p>Color ID: {{ shit.colorID }}</p>
+                <p>Dimension: {{ shit.dimension }}</p>
+                <p>Level of Satisfaction: {{ shit.level_of_satisfaction }}</p>
+                <p class="user-info">User: {{ user.nickname }} ({{ user.email }})</p>
+                <p class="shit-notes">Notes: {{ shit.notes }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        </div>
 </body>
 </html>

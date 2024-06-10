@@ -50,6 +50,27 @@ class User(db.Model, UserMixin):
     date_of_birth = db.Column(db.Date, nullable=True)
     weight = db.Column(db.Numeric(5, 2), nullable=True, 
                        check_constraint='weight >= 0')
+    
+
+class Shit(db.Model):
+    __tablename__ = 'shit'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    shape = db.Column(db.String(50), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    colorID = db.Column(db.Integer, db.ForeignKey('shit_color.id'), nullable=False)
+    dimension = db.Column(db.Integer, nullable=False)
+    level_of_satisfaction = db.Column(db.Integer, nullable=False)
+    userID = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+    notes = db.Column(db.Text, nullable=True)
+    
+    __table_args__ = (
+        db.CheckConstraint('quantity >= 0 AND quantity <= 10', name='quantity_check'),
+        db.CheckConstraint('dimension >= 0 AND dimension <= 10', name='dimension_check'),
+        db.CheckConstraint('level_of_satisfaction >= 0 AND level_of_satisfaction <= 10', name='level_of_satisfaction_check'),
+    )
+
+    user = db.relationship('User', backref=db.backref('shits', cascade='all, delete-orphan'))
 
 
 class RegisterForm(FlaskForm):
@@ -105,9 +126,11 @@ class LoginForm(FlaskForm):
 def index():
     return render_template("index.html")
 
-@app.route("/home")
+@app.route('/home')
 def home():
-    return render_template("logged/home.html")
+    # Fetch all shit records along with the related user
+    shits = db.session.query(Shit, User).join(User, Shit.userID == User.id).all()
+    return render_template('logged/home.html', shits=shits)
 
 @app.route("/settings")
 def settings():
