@@ -179,7 +179,8 @@ def home():
         )
         db.session.add(shit)
         db.session.commit()
-        return redirect(url_for('home', _anchor='success'))
+        flash('Registration successful!', 'success')  # Flash success message
+        return redirect(url_for('home'))
     return render_template('logged/home.html', user=current_user, form=form, shits=shits)
 
 @app.route("/settings")
