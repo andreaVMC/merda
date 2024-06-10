@@ -28,7 +28,8 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
 
-    def __init__(self, nickname, email, password, name, surname, sex=None, date_of_birth=None, weight=None):
+    def __init__(self, nickname, email, password, name, surname, sex=None, 
+                 date_of_birth=None, weight=None):
         self.nickname = nickname
         self.email = email
         self.password = password
@@ -44,20 +45,25 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255), nullable=False)
     name = db.Column(db.String(50), nullable=False)
     surname = db.Column(db.String(50), nullable=False)
-    sex = db.Column(db.String(1), nullable=True, check_constraint='sex IN (\'M\', \'F\')')
+    sex = db.Column(db.String(1), nullable=True, 
+                    check_constraint='sex IN (\'M\', \'F\')')
     date_of_birth = db.Column(db.Date, nullable=True)
-    weight = db.Column(db.Numeric(5, 2), nullable=True, check_constraint='weight >= 0')
+    weight = db.Column(db.Numeric(5, 2), nullable=True, 
+                       check_constraint='weight >= 0')
 
 
 class RegisterForm(FlaskForm):
     nickname = StringField(validators=[
-        InputRequired(), Length(max=255)], render_kw={"placeholder": "Nickname"})
+        InputRequired(), Length(max=255)],
+        render_kw={"placeholder": "Nickname"})
     
     email = StringField(validators=[
-        InputRequired(), Email(), Length(max=255)], render_kw={"placeholder": "Email"})
+        InputRequired(), Email(), Length(max=255)], 
+        render_kw={"placeholder": "Email"})
     
     password = PasswordField(validators=[
-        InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+        InputRequired(), Length(min=8, max=20)], 
+        render_kw={"placeholder": "Password"})
     
     name = StringField(validators=[
         InputRequired(), Length(max=50)], render_kw={"placeholder": "Name"})
@@ -66,11 +72,14 @@ class RegisterForm(FlaskForm):
         InputRequired(), Length(max=50)], render_kw={"placeholder": "Surname"})
     
     sex = SelectField(choices=[('M', 'Male'), ('F', 'Female')],
-                      validators=[Optional()], render_kw={"placeholder": "Sex"})
+                      validators=[Optional()], 
+                      render_kw={"placeholder": "Sex"})
     
-    date_of_birth = DateField(validators=[Optional()], format='%Y-%m-%d', render_kw={"placeholder": "Date of Birth"})
+    date_of_birth = DateField(validators=[Optional()], format='%Y-%m-%d', 
+                              render_kw={"placeholder": "Date of Birth"})
     
-    weight = DecimalField(validators=[Optional()], places=2, rounding=None, render_kw={"placeholder": "Weight"})
+    weight = DecimalField(validators=[Optional()], places=2, rounding=None, 
+                          render_kw={"placeholder": "Weight"})
     
     submit = SubmitField('Register')
     
@@ -83,10 +92,12 @@ class RegisterForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     email = StringField(validators=[
-                           InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "email"})
+                           InputRequired(), Length(min=4, max=20)],
+                            render_kw={"placeholder": "email"})
 
     password = PasswordField(validators=[
-                             InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
+                             InputRequired(), Length(min=8, max=20)], 
+                             render_kw={"placeholder": "Password"})
 
     submit = SubmitField('Login')
 
@@ -118,9 +129,7 @@ def register():
     form = RegisterForm()
 
     if request.method == 'POST':
-        print("Here 1")
         if form.validate_on_submit():
-            print("Here 2")
             hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
             new_user = User(
                 nickname=form.nickname.data,
@@ -135,8 +144,8 @@ def register():
             db.session.add(new_user)
             try:
                 db.session.commit()
-                flash('Your account has been created! You are now able to log in', 'success')
-                print("Here 3")
+                flash('Your account has been created! \
+                      You are now able to log in', 'success')
                 return redirect(url_for('login'))
             except Exception as e:
                 db.session.rollback()
@@ -145,7 +154,8 @@ def register():
             flash('Form validation failed', 'danger')
             for field, errors in form.errors.items():
                 for error in errors:
-                    flash(f"Error in {getattr(form, field).label.text}: {error}", 'danger')
+                    flash(f"Error in {getattr(form, field).label.text}: {error}", 
+                          'danger')
             # Log the errors to the console for debugging
             print("Form validation errors:", form.errors)
 
