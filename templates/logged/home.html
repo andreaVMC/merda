@@ -87,10 +87,11 @@
                 <p>Color ID: {{ shit.colorID }}</p>
                 <p>Dimension: {{ shit.dimension }}</p>
                 <p>Level of Satisfaction: {{ shit.level_of_satisfaction }}</p>
+                <p>Timestamp: {{ shit.created_at }}</p> 
                 <p class="user-info">User: {{ user.nickname }} ({{ user.email }})</p>
                 <p class="shit-notes">Notes: {{ shit.notes }}</p>
             </div>
-            {% endfor %}
+        {% endfor %}
         </div>
     </div>
 </body>

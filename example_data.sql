@@ -12,32 +12,32 @@ INSERT INTO "user" (nickname, email, password, name, surname, sex, date_of_birth
 VALUES ('bob', 'bob@example.com', 'hashed_password4', 'Bob', 'Johnson', 'M', '1988-04-04', 80.00);
 
 -- Inserting random data into the shit table
-INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes")
-VALUES (2, 5, 1, 4, 7, 1, 'No issues');
+INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes", "created_at")
+VALUES (2, 5, 1, 4, 7, 1, 'No issues', '2024-06-10 08:00:00');
 
-INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes")
-VALUES (2, 3, 2, 6, 5, 2, 'Slightly soft');
+INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes", "created_at")
+VALUES (2, 3, 2, 6, 5, 2, 'Slightly soft', '2024-06-09 12:00:00');
 
-INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes")
-VALUES (5, 2, 3, 2, 3, 1, 'Color unusual');
+INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes", "created_at")
+VALUES (5, 2, 3, 2, 3, 1, 'Color unusual', '2024-06-08 15:00:00');
 
-INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes")
-VALUES (6, 4, 1, 5, 6, 2, 'Normal experience');
+INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes", "created_at")
+VALUES (6, 4, 1, 5, 6, 2, 'Normal experience', '2024-06-07 10:00:00');
 
-INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes")
-VALUES (3, 1, 2, 3, 2, 3, 'Quick and easy');
+INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes", "created_at")
+VALUES (3, 1, 2, 3, 2, 3, 'Quick and easy', '2024-06-06 08:30:00');
 
-INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes")
-VALUES (5, 7, 3, 8, 9, 1, 'Best one yet');
+INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes", "created_at")
+VALUES (5, 7, 3, 8, 9, 1, 'Best one yet', '2024-06-05 11:45:00');
 
-INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes")
-VALUES (4, 6, 1, 7, 8, 3, 'Satisfying');
+INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes", "created_at")
+VALUES (4, 6, 1, 7, 8, 3, 'Satisfying', '2024-06-04 09:20:00');
 
-INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes")
-VALUES (3, 5, 2, 6, 7, 2, 'Felt good');
+INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes", "created_at")
+VALUES (3, 5, 2, 6, 7, 2, 'Felt good', '2024-06-03 14:00:00');
 
-INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes")
-VALUES (2, 2, 3, 4, 4, 2, 'Not bad');
+INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes", "created_at")
+VALUES (2, 2, 3, 4, 4, 2, 'Not bad', '2024-06-02 16:20:00');
 
-INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes")
-VALUES (1, 8, 1, 9, 10, 1, 'Extremely satisfying');
+INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes", "created_at")
+VALUES (1, 8, 1, 9, 10, 1, 'Extremely satisfying', '2024-06-01 17:30:00');

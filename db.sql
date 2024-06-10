@@ -43,16 +43,16 @@ VALUES
     ('Black'),
     ('Red streacks');
 
--- Creating the Shit table
 CREATE TABLE "shit" (
     "id" SERIAL PRIMARY KEY,
-    "shape" INT CHECK (shape >=1 AND shape <= 7) NOT NULL,
+    "shape" INT CHECK (shape >= 1 AND shape <= 7) NOT NULL,
     "quantity" INT CHECK (quantity >= 0 AND quantity <= 10),
     "colorID" INT REFERENCES shit_color(id) NOT NULL,
-    "dimension" INT CHECK (level_of_satisfaction >= 0 AND level_of_satisfaction <= 10),
+    "dimension" INT CHECK (dimension >= 0 AND dimension <= 10),  -- Assuming this is the intended constraint
     "level_of_satisfaction" INT CHECK (level_of_satisfaction >= 0 AND level_of_satisfaction <= 10),
     "userID" INT REFERENCES "user"(id) ON DELETE CASCADE,
-    "notes" TEXT
+    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    "notes" TEXT,
 );
 
 -- Creating the UserTeam table to represent the many-to-many relationship between Users and Teams

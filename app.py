@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Flask, render_template, url_for, flash, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
@@ -55,14 +56,20 @@ class User(db.Model, UserMixin):
 class Shit(db.Model):
     __tablename__ = 'shit'
     
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    shape = db.Column(db.String(50), nullable=False)
-    quantity = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    shape = db.Column(db.Integer, nullable=False, check_constraint='shape >= 1 AND shape <= 7')
+    quantity = db.Column(db.Integer, nullable=False, check_constraint='quantity >= 0 AND quantity <= 10')
     colorID = db.Column(db.Integer, db.ForeignKey('shit_color.id'), nullable=False)
-    dimension = db.Column(db.Integer, nullable=False)
-    level_of_satisfaction = db.Column(db.Integer, nullable=False)
-    userID = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
-    notes = db.Column(db.Text, nullable=True)
+    dimension = db.Column(db.Integer, nullable=False, check_constraint='dimension >= 0 AND dimension <= 10')
+    level_of_satisfaction = db.Column(db.Integer, nullable=False, check_constraint='level_of_satisfaction >= 0 AND level_of_satisfaction <= 10')
+    userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    notes = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+
+    # Define relationships if necessary
+    user = db.relationship('User', backref='shits')
+    color = db.relationship('ShitColor', backref='shits')
+
     
     __table_args__ = (
         db.CheckConstraint('quantity >= 0 AND quantity <= 10', name='quantity_check'),
