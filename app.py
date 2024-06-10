@@ -73,6 +73,13 @@ class Shit(db.Model):
     user = db.relationship('User', backref=db.backref('shits', cascade='all, delete-orphan'))
 
 
+class ShitColor(db.Model):
+    __tablename__ = 'shit_color'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+
+
 class RegisterForm(FlaskForm):
     nickname = StringField(validators=[
         InputRequired(), Length(max=255)],
@@ -151,7 +158,7 @@ class ShitForm(FlaskForm):
 def index():
     return render_template("index.html")
 
-@app.route('/home')
+@app.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
     # Fetch all shit records along with the related user
@@ -167,6 +174,7 @@ def home():
             colorID=form.colorID.data,
             dimension=form.dimension.data,
             level_of_satisfaction=form.level_of_satisfaction.data,
+            userID=current_user.id,
             notes=form.notes.data
         )
         db.session.add(shit)
@@ -233,6 +241,11 @@ def register():
 
     return render_template('register.html', form=form)
 
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 if __name__ == "__main__":
     app.run(debug=True)
