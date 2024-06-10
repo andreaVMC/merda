@@ -92,7 +92,7 @@ class RegisterForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     email = StringField(validators=[
-                           InputRequired(), Length(min=4, max=20)],
+                           InputRequired(), Length(min=4, max=40)],
                             render_kw={"placeholder": "email"})
 
     password = PasswordField(validators=[
@@ -115,13 +115,19 @@ def settings():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user:
-            if bcrypt.check_password_hash(user.password, form.password.data):
-                login_user(user)
-                return redirect(url_for('dashboard'))
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=True) # Could add "Remember me" btn
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('home'))
+        else:
+            flash('Login unsuccessful. Please check email and password', 'danger')
+    
     return render_template('login.html', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
