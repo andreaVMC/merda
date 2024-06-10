@@ -36,23 +36,28 @@
 
 
 		<div style="margin: 25px; width: min(100%, 450px);">
-                <form method="POST" action="{{ url_for('login') }}">
+                <form method="POST" action="{{ url_for('login') }}" class="basic-form">
                     {{ form.hidden_tag() }}
                     
-                    <div>
-                        {{ form.email.label }}<br>
-                        {{ form.email(size=32) }}<br>
-                        {% for error in form.email.errors %}
-                            <span style="color: red;">[{{ error }}]</span><br>
-                        {% endfor %}
+                    <div class="input-container">
+                        <div class="material-textfield">
+                            {{ form.email }}
+                            {{ form.email.label }}
+                            {% for error in form.email.errors %}
+                                <span style="color: red;">[{{ error }}]</span><br>
+                            {% endfor %}
+                        </div>
                     </div>
-                    <div>
-                        {{ form.password.label }}<br>
-                        {{ form.password(size=32) }}<br>
-                        {% for error in form.password.errors %}
-                            <span style="color: red;">[{{ error }}]</span><br>
-                        {% endfor %}
+                    <div class="input-container">
+                        <div class="material-textfield">
+                            {{ form.password }}
+                            {{ form.password.label }}
+                            {% for error in form.password.errors %}
+                                <span style="color: red;">[{{ error }}]</span><br>
+                            {% endfor %}
+                        </div>
                     </div>
+                    
                     <div>
                         {{ form.submit() }}
                     </div>

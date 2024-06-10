@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/color.css') }}" type="text/css">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/page.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/page.css') }}" type="text/css">
     <script src="{{ url_for('static', filename='js/hamburger.js') }}" defer></script>
 	<!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/95ae55bd9a.js" crossorigin="anonymous"></script>
@@ -31,69 +31,87 @@
 	<div class="main-container"><div class="main flex-center" style="margin-top: 69px;">
 		<h1>Register</h1>
 	<div  style="margin: 25px; width: min(100%, 600px);">
-		<form method="POST" action="{{ url_for('register') }}">
+		<form method="POST" action="{{ url_for('register') }}" class="basic-form">
 
 			{{ form.hidden_tag() }}
-			
-			<div>
+			<!--div>
 				{{ form.nickname.label }}<br>
 				{{ form.nickname(size=32) }}<br>
 				{% for error in form.nickname.errors %}
 					<span style="color: red;">[{{ error }}]</span><br>
 				{% endfor %}
+			</div-->
+			
+			<div class="two-inputs-container">
+                <div class="material-textfield">
+					{{ form.name }}
+					{{ form.name.label }}
+					{% for error in form.name.errors %}
+						<span style="color: red;">[{{ error }}]</span><br>
+					{% endfor %}
+				</div>
+				<div class="material-textfield">
+					{{ form.surname }}
+					{{ form.surname.label }}
+					{% for error in form.surname.errors %}
+						<span style="color: red;">[{{ error }}]</span><br>
+					{% endfor %}
+				</div>
 			</div>
-			<div>
-				{{ form.email.label }}<br>
-				{{ form.email(size=32) }}<br>
-				{% for error in form.email.errors %}
-					<span style="color: red;">[{{ error }}]</span><br>
-				{% endfor %}
+			<div class="input-container">
+				<div class="material-textfield">
+					{{ form.email }}
+					{{ form.email.label }}
+					{% for error in form.email.errors %}
+						<span style="color: red;">[{{ error }}]</span><br>
+					{% endfor %}
+				</div>
 			</div>
-			<div>
-				{{ form.password.label }}<br>
-				{{ form.password(size=32) }}<br>
-				{% for error in form.password.errors %}
-					<span style="color: red;">[{{ error }}]</span><br>
-				{% endfor %}
+			<div class="input-container">
+				<div class="material-textfield">
+					{{ form.password }}
+					{{ form.password.label }}
+					{% for error in form.password.errors %}
+						<span style="color: red;">[{{ error }}]</span><br>
+					{% endfor %}
+				</div>
 			</div>
-			<div>
-				{{ form.name.label }}<br>
-				{{ form.name(size=32) }}<br>
-				{% for error in form.name.errors %}
-					<span style="color: red;">[{{ error }}]</span><br>
-				{% endfor %}
+			<div class="input-container">
+				<div class="select">
+					<select id="gender" class="select-text" required>
+						<option selected value="" style="display: none;" disabled></option>
+						{% for value, label in form.sex.choices %}
+							<option id="{{ value }}" value="{{ value }}">{{ label }}</option>
+						{% endfor %}
+					</select>
+					{{ form.sex.label(class_="select-label") }}
+					{% for error in form.sex.errors %}
+						<span style="color: red;">[{{ error }}]</span><br>
+					{% endfor %}
+				</div>
 			</div>
-			<div>
-				{{ form.surname.label }}<br>
-				{{ form.surname(size=32) }}<br>
-				{% for error in form.surname.errors %}
-					<span style="color: red;">[{{ error }}]</span><br>
-				{% endfor %}
+
+					<div>
+						{{ form.date_of_birth.label }}<br>
+						{{ form.date_of_birth() }}<br>
+						{% for error in form.date_of_birth.errors %}
+							<span style="color: red;">[{{ error }}]</span><br>
+						{% endfor %}
+					</div>
+
+			<div class="input-container">
+				<div class="material-textfield">
+					{{ form.weight }}
+					{{ form.weight.label }}
+					{% for error in form.weight.errors %}
+						<span style="color: red;">[{{ error }}]</span><br>
+					{% endfor %}
+				</div>
 			</div>
-			<div>
-				{{ form.sex.label }}<br>
-				{{ form.sex() }}<br>
-				{% for error in form.sex.errors %}
-					<span style="color: red;">[{{ error }}]</span><br>
-				{% endfor %}
-			</div>
-			<div>
-				{{ form.date_of_birth.label }}<br>
-				{{ form.date_of_birth() }}<br>
-				{% for error in form.date_of_birth.errors %}
-					<span style="color: red;">[{{ error }}]</span><br>
-				{% endfor %}
-			</div>
-			<div>
-				{{ form.weight.label }}<br>
-				{{ form.weight() }}<br>
-				{% for error in form.weight.errors %}
-					<span style="color: red;">[{{ error }}]</span><br>
-				{% endfor %}
-			</div>
-			<div>
-				{{ form.submit() }}
-			</div>
+
+					<div>
+						{{ form.submit() }}
+					</div>
 		</form>
 
 			{% with messages = get_flashed_messages(with_categories=true) %}

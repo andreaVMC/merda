@@ -90,25 +90,24 @@ class ShitColor(db.Model):
 class RegisterForm(FlaskForm):
     nickname = StringField(validators=[
         InputRequired(), Length(max=255)],
-        render_kw={"placeholder": "Nickname"})
+        render_kw={"placeholder": ""})
     
     email = StringField(validators=[
         InputRequired(), Email(), Length(max=255)], 
-        render_kw={"placeholder": "Email"})
+        render_kw={"placeholder": ""})
     
     password = PasswordField(validators=[
         InputRequired(), Length(min=8, max=20)], 
-        render_kw={"placeholder": "Password"})
+        render_kw={"placeholder": ""})
     
     name = StringField(validators=[
-        InputRequired(), Length(max=50)], render_kw={"placeholder": "Name"})
+        InputRequired(), Length(max=50)], render_kw={"placeholder": ""}) # placeholder empty for material design input style
     
     surname = StringField(validators=[
-        InputRequired(), Length(max=50)], render_kw={"placeholder": "Surname"})
+        InputRequired(), Length(max=50)], render_kw={"placeholder": ""})
     
-    sex = SelectField(choices=[('M', 'Male'), ('F', 'Female')],
-                      validators=[Optional()], 
-                      render_kw={"placeholder": "Sex"})
+    sex = SelectField(choices=[('M', 'Male'), ('F', 'Female')], # first is placeholder for material design
+                      validators=[Optional()] )
     
     date_of_birth = DateField(validators=[Optional()], format='%Y-%m-%d', 
                               render_kw={"placeholder": "Date of Birth"})
@@ -121,18 +120,18 @@ class RegisterForm(FlaskForm):
     def validate_email(self, email):
         existing_user_email = User.query.filter_by(email=email.data).first()
         if existing_user_email:
-            raise ValidationError('That email already exists. Please log in.')
+            raise ValidationError('This email already exists. Please log in.')
 
 
 
 class LoginForm(FlaskForm):
     email = StringField(validators=[
                            InputRequired(), Length(min=4, max=40)],
-                            render_kw={"placeholder": "email"})
+                            render_kw={"placeholder": ""})
 
     password = PasswordField(validators=[
                              InputRequired(), Length(min=8, max=20)], 
-                             render_kw={"placeholder": "Password"})
+                             render_kw={"placeholder": ""})
 
     submit = SubmitField('Login')
 
