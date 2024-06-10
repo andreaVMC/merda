@@ -38,7 +38,7 @@
 <body>
     {% include 'logged/includes/sidebar.html' %}
     <div class="container mt-5">
-        <h1 class="mb-4">Home</h1>
+        <h1 class="mb-4">{{user.nickname}}'s shit feed</h1>
         <h2>Record Your Shit</h2>
 		<form method="POST" action="{{ url_for('home') }}">
             {{ form.csrf_token }}

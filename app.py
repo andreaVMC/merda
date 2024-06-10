@@ -152,6 +152,7 @@ def index():
     return render_template("index.html")
 
 @app.route('/home')
+@login_required
 def home():
     # Fetch all shit records along with the related user
     shits = db.session.query(Shit, User).join(User, Shit.userID == User.id).all()
@@ -171,9 +172,10 @@ def home():
         db.session.add(shit)
         db.session.commit()
         return redirect(url_for('home', _anchor='success'))
-    return render_template('logged/home.html', form=form, shits=shits)
+    return render_template('logged/home.html', user=current_user, form=form, shits=shits)
 
 @app.route("/settings")
+@login_required
 def settings():
     return render_template("logged/settings.html")
 
