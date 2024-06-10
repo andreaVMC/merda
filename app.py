@@ -2,8 +2,8 @@ from flask import Flask, render_template, url_for, flash, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateField, DecimalField, SelectField
-from wtforms.validators import InputRequired, Length, Email, ValidationError, Optional
+from wtforms import StringField, PasswordField, SubmitField, DateField, DecimalField, SelectField, IntegerField, TextAreaField
+from wtforms.validators import InputRequired, Length, Email, ValidationError, Optional, NumberRange
 
 from flask_bcrypt import Bcrypt
 
@@ -122,6 +122,31 @@ class LoginForm(FlaskForm):
 
     submit = SubmitField('Login')
 
+
+class ShitForm(FlaskForm):
+    shape = SelectField('Shape', choices=[
+        ('1', 'Type 1: Separate hard lumps, like nuts (hard to pass)'),
+        ('2', 'Type 2: Sausage-shaped, but lumpy'),
+        ('3', 'Type 3: Like a sausage but with cracks on the surface'),
+        ('4', 'Type 4: Like a sausage or snake, smooth and soft'),
+        ('5', 'Type 5: Soft blobs with clear-cut edges (passed easily)'),
+        ('6', 'Type 6: Fluffy pieces with ragged edges, a mushy stool'),
+        ('7', 'Type 7: Watery, no solid pieces (entirely liquid)'),
+    ], validators=[InputRequired()])
+    quantity = IntegerField('Quantity', validators=[InputRequired(), NumberRange(min=0, max=10)])
+    colorID = SelectField('Color', choices=[
+        ('1', 'Black'),
+        ('2', 'Brown'),
+        ('3', 'Green'),
+        ('4', 'Yellow'),
+        ('5', 'Red'),
+        ('6', 'White'),
+    ], validators=[InputRequired()])
+    dimension = IntegerField('Dimension (1-10)', validators=[InputRequired(), NumberRange(min=1, max=10)])
+    level_of_satisfaction = IntegerField('Level of Satisfaction (1-10)', validators=[InputRequired(), NumberRange(min=1, max=10)])
+    notes = TextAreaField('Notes')
+    submit = SubmitField('Record Shit')
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -130,7 +155,23 @@ def index():
 def home():
     # Fetch all shit records along with the related user
     shits = db.session.query(Shit, User).join(User, Shit.userID == User.id).all()
-    return render_template('logged/home.html', shits=shits)
+    
+    # shit recording management
+    form = ShitForm()
+    if form.validate_on_submit():
+        # Create a new Shit record and save it to the database
+        shit = Shit(
+            shape=form.shape.data,
+            quantity=form.quantity.data,
+            colorID=form.colorID.data,
+            dimension=form.dimension.data,
+            level_of_satisfaction=form.level_of_satisfaction.data,
+            notes=form.notes.data
+        )
+        db.session.add(shit)
+        db.session.commit()
+        return redirect(url_for('home', _anchor='success'))
+    return render_template('logged/home.html', form=form, shits=shits)
 
 @app.route("/settings")
 def settings():

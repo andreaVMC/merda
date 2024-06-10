@@ -36,15 +36,40 @@
 <body>
 
 <body>
-    <div class="container mt-5">
-        
-    </div>
-</body>
-</html>
-
     {% include 'logged/includes/sidebar.html' %}
-        <div class="container mt-5">
-            <h1 class="mb-4">Home</h1>
+    <div class="container mt-5">
+        <h1 class="mb-4">Home</h1>
+        <h2>Record Your Shit</h2>
+		<form method="POST" action="{{ url_for('home') }}">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{ form.shape.label }}<br>
+                {{ form.shape }}
+            </div>
+            <div class="form-group">
+                {{ form.quantity.label }}<br>
+                {{ form.quantity }}
+            </div>
+            <div class="form-group">
+                {{ form.colorID.label }}<br>
+                {{ form.colorID }}
+            </div>
+            <div class="form-group">
+                {{ form.dimension.label }}<br>
+                {{ form.dimension }}
+            </div>
+            <div class="form-group">
+                {{ form.level_of_satisfaction.label }}<br>
+                {{ form.level_of_satisfaction }}
+            </div>
+            <div class="form-group">
+                {{ form.notes.label }}<br>
+                {{ form.notes }}
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+
+        <h2>How're your friends doing?</h2>
         <div class="shit-list">
             {% for shit, user in shits %}
             <div class="shit-card">
@@ -58,6 +83,6 @@
             </div>
             {% endfor %}
         </div>
-        </div>
+    </div>
 </body>
 </html>
