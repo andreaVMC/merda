@@ -164,22 +164,6 @@ class ShitForm(FlaskForm):
 def index():
     return render_template("index.html")
 
-@app.route('/home', methods=['GET'])
-@login_required
-def home():
-    # shit recording management
-    form = ShitForm()
-
-    # Fetch all shit records along with the related user
-    shits = db.session.query(Shit, User).join(User, Shit.userID == User.id).all()
-    
-    return render_template('logged/home.html', form=form, user=current_user, shits=shits)
-
-@app.route("/settings")
-@login_required
-def settings():
-    return render_template("logged/settings.html")
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -233,6 +217,22 @@ def register():
             print("Form validation errors:", form.errors)
 
     return render_template('register.html', form=form)
+
+@app.route("/settings")
+@login_required
+def settings():
+    return render_template("logged/settings.html")
+
+@app.route('/home', methods=['GET'])
+@login_required
+def home():
+    # shit recording management
+    form = ShitForm()
+
+    # Fetch all shit records along with the related user
+    shits = db.session.query(Shit, User).join(User, Shit.userID == User.id).all()
+    
+    return render_template('logged/home.html', form=form, user=current_user, shits=shits)
 
 @app.route('/new_shit', methods=["POST"])
 @login_required
