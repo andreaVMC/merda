@@ -8,6 +8,8 @@ from wtforms.validators import InputRequired, Length, Email, ValidationError, Op
 
 from flask_bcrypt import Bcrypt
 
+### GENERAL SETUP ###
+
 db = SQLAlchemy()
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
@@ -25,6 +27,7 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+### DB MODEL CLASSES ###
 
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
@@ -86,6 +89,7 @@ class ShitColor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
 
+### FORM CLASSES ###
 
 class RegisterForm(FlaskForm):
     nickname = StringField(validators=[
@@ -160,6 +164,8 @@ class ShitForm(FlaskForm):
     notes = TextAreaField('Notes')
     submit = SubmitField('Record Shit')
 
+### ROUTES ###
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -233,6 +239,8 @@ def home():
     shits = db.session.query(Shit, User).join(User, Shit.userID == User.id).all()
     
     return render_template('logged/home.html', form=form, user=current_user, shits=shits)
+
+### APIs ###
 
 @app.route('/new_shit', methods=["POST"])
 @login_required
