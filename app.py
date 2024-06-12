@@ -164,30 +164,16 @@ class ShitForm(FlaskForm):
 def index():
     return render_template("index.html")
 
-@app.route('/home', methods=['GET', 'POST'])
+@app.route('/home', methods=['GET'])
 @login_required
 def home():
+    # shit recording management
+    form = ShitForm()
+
     # Fetch all shit records along with the related user
     shits = db.session.query(Shit, User).join(User, Shit.userID == User.id).all()
     
-    # shit recording management
-    form = ShitForm()
-    if form.validate_on_submit():
-        # Create a new Shit record and save it to the database
-        shit = Shit(
-            shape=form.shape.data,
-            quantity=form.quantity.data,
-            colorID=form.colorID.data,
-            dimension=form.dimension.data,
-            level_of_satisfaction=form.level_of_satisfaction.data,
-            userID=current_user.id,
-            notes=form.notes.data
-        )
-        db.session.add(shit)
-        db.session.commit()
-        flash('Registration successful!', 'success')  # Flash success message
-        return redirect(url_for('home'))
-    return render_template('logged/home.html', user=current_user, form=form, shits=shits)
+    return render_template('logged/home.html', form=form, user=current_user, shits=shits)
 
 @app.route("/settings")
 @login_required
@@ -247,6 +233,27 @@ def register():
             print("Form validation errors:", form.errors)
 
     return render_template('register.html', form=form)
+
+@app.route('/new_shit', methods=["POST"])
+@login_required
+def new_shit():
+    # shit recording management
+    form = ShitForm()
+    if form.validate_on_submit():
+        # Create a new Shit record and save it to the database
+        shit = Shit(
+            shape=form.shape.data,
+            quantity=form.quantity.data,
+            colorID=form.colorID.data,
+            dimension=form.dimension.data,
+            level_of_satisfaction=form.level_of_satisfaction.data,
+            userID=current_user.id,
+            notes=form.notes.data
+        )
+        db.session.add(shit)
+        db.session.commit()
+        flash('Registration successful!', 'success')  # Flash success message
+        return redirect(url_for('home'))
 
 @app.route('/logout')
 @login_required
