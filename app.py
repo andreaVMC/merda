@@ -114,12 +114,12 @@ class RegisterForm(FlaskForm):
                       validators=[Optional()] )
     
     date_of_birth = DateField(validators=[Optional()], format='%Y-%m-%d', 
-                              render_kw={"placeholder": "Date of Birth"})
+                              render_kw={"placeholder": ""})
     
     weight = DecimalField(validators=[Optional()], places=2, rounding=None, 
-                          render_kw={"placeholder": "Weight"})
+                          render_kw={"placeholder": ""})
     
-    submit = SubmitField('Register')
+    submit = SubmitField('Sign Up', render_kw={'class': 'btn filled submit-btn'})
     
     def validate_email(self, email):
         existing_user_email = User.query.filter_by(email=email.data).first()

@@ -119,7 +119,10 @@ button{
 	cursor: pointer;
 	outline: inherit;
 }
-a.btn.filled, button.btn.filled {
+input.btn{
+	width: 100% !important;
+}
+input.btn.filled, a.btn.filled, button.btn.filled {
 	background-color: var(--primary);
 	border: 1px solid var(--primary);
 	color: var(--on-primary);
@@ -137,7 +140,7 @@ a.btn.text, button.btn.text {
 a.btn.text:hover, button.btn.text:hover{
 	color: var(--primary-text-hover);
 }
-a.btn.filled:hover, button.btn.filled:hover{
+input.btn.filled:hover, a.btn.filled:hover, button.btn.filled:hover{
 	background-color: var(--primary-hover);
 }
 a.btn.filled.onprimary:hover, button.btn.filled.onprimary:hover{

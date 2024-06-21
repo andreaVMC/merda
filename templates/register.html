@@ -90,14 +90,15 @@
 					{% endfor %}
 				</div>
 			</div>
-
-					<div>
-						{{ form.date_of_birth.label }}<br>
-						{{ form.date_of_birth() }}<br>
+			<div class="input-container">
+				<div class="material-textfield">
+						{{ form.date_of_birth() }}
+						{{ form.date_of_birth.label }}
 						{% for error in form.date_of_birth.errors %}
 							<span style="color: red;">[{{ error }}]</span><br>
 						{% endfor %}
 					</div>
+				</div>
 
 			<div class="input-container">
 				<div class="material-textfield">
@@ -109,9 +110,8 @@
 				</div>
 			</div>
 
-					<div>
-						{{ form.submit() }}
-					</div>
+			{{ form.submit() }}
+
 		</form>
 
 			{% with messages = get_flashed_messages(with_categories=true) %}
