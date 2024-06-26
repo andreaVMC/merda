@@ -34,13 +34,15 @@
 		<form method="POST" action="{{ url_for('register') }}" class="basic-form">
 
 			{{ form.hidden_tag() }}
-			<!--div>
+			<!-- <! -- -->
+			<div>
 				{{ form.nickname.label }}<br>
 				{{ form.nickname(size=32) }}<br>
 				{% for error in form.nickname.errors %}
 					<span style="color: red;">[{{ error }}]</span><br>
 				{% endfor %}
-			</div-->
+			</div>
+			<!-- -- > -->
 			
 			<div class="two-inputs-container">
                 <div class="material-textfield">
