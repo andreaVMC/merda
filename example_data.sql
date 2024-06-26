@@ -11,6 +11,10 @@ VALUES ('alice', 'alice@example.com', 'hashed_password3', 'Alice', 'Smith', 'F',
 INSERT INTO "user" (nickname, email, password, name, surname, sex, date_of_birth, weight)
 VALUES ('bob', 'bob@example.com', 'hashed_password4', 'Bob', 'Johnson', 'M', '1988-04-04', 80.00);
 
+-- stalin@urss.it asdasdasd
+INSERT INTO "user" (nickname, email, password, name, surname, sex, date_of_birth, weight)
+VALUES ('stalin1991', 'stalin@urss.it', '$2b$12$xgNo01WVreSpdxf/Dxd/wOywQKZJDvC23H6eWxm7yV9R6PJpSlegK', 'Joseph', 'Stalin', 'M', '2004-03-08', 80.00);
+
 -- Inserting random data into the shit table
 INSERT INTO shit ("shape", "quantity", "colorID", "dimension", "level_of_satisfaction", "userID", "notes", "created_at")
 VALUES (2, 5, 1, 4, 7, 1, 'No issues', '2024-06-10 08:00:00');
