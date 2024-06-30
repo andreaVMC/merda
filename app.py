@@ -237,7 +237,8 @@ def home():
 
     # Fetch all shit records along with the related user
     shits = db.session.query(Shit, User).join(User, Shit.userID == User.id).all()
-    
+    shits.reverse()
+
     return render_template('logged/home.html', form=form, user=current_user, shits=shits)
 
 ### APIs ###
