@@ -51,8 +51,8 @@ CREATE TABLE "shit" (
     "dimension" INT CHECK (dimension >= 0 AND dimension <= 10),  -- Assuming this is the intended constraint
     "level_of_satisfaction" INT CHECK (level_of_satisfaction >= 0 AND level_of_satisfaction <= 10),
     "userID" INT REFERENCES "user"(id) ON DELETE CASCADE,
-    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    "notes" TEXT,
+    "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "notes" TEXT
 );
 
 -- Creating the UserTeam table to represent the many-to-many relationship between Users and Teams
