@@ -6,7 +6,7 @@
 			</span>
 			<span class="sidebar-link-text">Home</span>
 		</a>
-		<a class="sidebar-link" id="add" href=""> <!-- TODO: highlight add btn -->
+		<a class="sidebar-link" id="add" onclick="openModal('new-modal')"> <!-- TODO: highlight add btn -->
 			<span class="material-symbols-outlined">
 				add
 			</span>
@@ -18,49 +18,17 @@
 			</span>
 			<span class="sidebar-link-text">Settings</span>
 		</a>
-		<a class="sidebar-link" id="settings" href="/logout">
-			<span class="material-symbols-outlined">
-				logout
-			</span>
-			<span class="sidebar-link-text">logout</span>
-		</a>
-		<div class="sidebar-link sidebar-menu" id="manu">
-			<a class="hamburger">
-				<span class="line"></span>
-				<span class="line"></span>
-				<span class="line"></span>
-			</a>
-			<div class="nav-links">
-				<ul>
-					<li>
-						<a class="sidebar-menu-link sidebar-menu-faq flex-center" href="/faq">
-							<span class="material-symbols-outlined material-space-right">help_center</span> FAQ
-						</a>
-					</li>
-					<li>
-						<a onclick="changeTheme()" class="sidebar-menu-link sidebar-menu-theme flex-center"><span class="material-symbols-outlined sidebar-theme-btn">
-							light_mode
-						</span></a>
-					</li>
-					<li>
-						<div class="sidebar-link sidebar-contatti">
-							<a href="https://www.instagram.com/ferminotify/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-							<a href="https://github.com/ferminotify" target="_blank"><i class="fa-brands fa-github"></i></a>
-						</div>
-					</li>
-				</ul>
-			</div>
-			<span class="sidebar-link-text">Menu</span>
-		</div>
-	</div>
-	<div class="sidebar-theme-container sidebar-desktop">
-		<a onclick="changeTheme()" class="sidebar-theme"><span class="material-symbols-outlined sidebar-theme-btn">
-			light_mode
-		</span></a>
 	</div>
 </div>
 
-
+<script>
+	function closeModal(id) {
+		document.getElementById(id).style.display = "none";
+	}
+	function openModal(id) {
+		document.getElementById(id).style.display = "flex";
+	}
+</script>
 
 <script>
 	// on scroll down hide / up show sidebar-link-text on mobile

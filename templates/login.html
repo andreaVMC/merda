@@ -6,7 +6,8 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/color.css') }}" type="text/css">
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/page.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/page.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/alertbanner.css') }}" type="text/css">
     <script src="{{ url_for('static', filename='js/hamburger.js') }}" defer></script>
 	<!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/95ae55bd9a.js" crossorigin="anonymous"></script>
@@ -57,23 +58,13 @@
                             {% endfor %}
                         </div>
                     </div>
-                    
-                    <div>
+                
                         {{ form.submit() }}
-                    </div>
                 </form>
             
-                <!-- Flash messages -->
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        <ul>
-                            {% for category, message in messages %}
-                                <li class="{{ category }}">{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endwith %}            
         </div>
+        
+        {% include 'includes/flash.html' %}
 
 	</div></div>
 </body>

@@ -30,20 +30,17 @@
 
 	<div class="main-container"><div class="main flex-center" style="margin-top: 69px;">
 		<h1>Register</h1>
-	<div  style="margin: 25px; width: min(100%, 600px);">
+	<div style="margin: 25px; width: min(100%, 600px);">
 		<form method="POST" action="{{ url_for('register') }}" class="basic-form">
 
 			{{ form.hidden_tag() }}
-			<!-- <! -- -->
-			<div>
-				{{ form.nickname.label }}<br>
-				{{ form.nickname(size=32) }}<br>
-				{% for error in form.nickname.errors %}
-					<span style="color: red;">[{{ error }}]</span><br>
-				{% endfor %}
+			<div class="material-textfield">
+				{{ form.nickname }}
+				{{ form.nickname.label }}
+			{% for error in form.nickname.errors %}
+				<span style="color: red;">[{{ error }}]</span><br>
+			{% endfor %}
 			</div>
-			<!-- -- > -->
-			
 			<div class="two-inputs-container">
                 <div class="material-textfield">
 					{{ form.name }}
@@ -78,6 +75,8 @@
 					{% endfor %}
 				</div>
 			</div>
+
+			<!-- toglierei sex e date of birth - 80% inutile -->
 			<div class="input-container">
 				<div class="select">
 					<select id="gender" class="select-text" required>
@@ -102,6 +101,7 @@
 					</div>
 				</div>
 
+				<!-- toglierei weight - 100% inutile -->
 			<div class="input-container">
 				<div class="material-textfield">
 					{{ form.weight }}
@@ -116,17 +116,11 @@
 
 		</form>
 
-			{% with messages = get_flashed_messages(with_categories=true) %}
-				{% if messages %}
-					<ul>
-						{% for category, message in messages %}
-							<li class="{{ category }}">{{ message }}</li>
-						{% endfor %}
-					</ul>
-				{% endif %}
-			{% endwith %}
 	</div>
 
+	{% include 'includes/flash.html' %}
+
 	</div></div>
+
 </body>
 </html>

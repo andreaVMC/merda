@@ -13,7 +13,7 @@ from flask_bcrypt import Bcrypt
 db = SQLAlchemy()
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres@localhost:5432/shit_app'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:a@localhost:5432/shit_app'
 app.config['SECRET_KEY'] = 'a'
 db.init_app(app)
 
@@ -27,6 +27,10 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+@login_manager.unauthorized_handler
+def unauthorized():
+    flash('Please log in to access this page.', 'danger')
+    return redirect(url_for('login'))
 ### DB MODEL CLASSES ###
 
 class User(db.Model, UserMixin):
@@ -137,7 +141,7 @@ class LoginForm(FlaskForm):
                              InputRequired(), Length(min=8, max=20)], 
                              render_kw={"placeholder": ""})
 
-    submit = SubmitField('Login')
+    submit = SubmitField('Login', render_kw={'class': 'btn filled submit-btn'})
 
 
 class ShitForm(FlaskForm):
@@ -150,7 +154,7 @@ class ShitForm(FlaskForm):
         ('6', 'Type 6: Fluffy pieces with ragged edges, a mushy stool'),
         ('7', 'Type 7: Watery, no solid pieces (entirely liquid)'),
     ], validators=[InputRequired()])
-    quantity = IntegerField('Quantity', validators=[InputRequired(), NumberRange(min=0, max=10)])
+    quantity = IntegerField('Quantity', validators=[InputRequired(), NumberRange(min=0, max=10)],render_kw={"placeholder": ""})
     colorID = SelectField('Color', choices=[
         ('1', 'Black'),
         ('2', 'Brown'),
@@ -160,7 +164,7 @@ class ShitForm(FlaskForm):
         ('6', 'White'),
     ], validators=[InputRequired()])
     dimension = IntegerField('Dimension (1-10)', validators=[InputRequired(), NumberRange(min=1, max=10)])
-    level_of_satisfaction = IntegerField('Level of Satisfaction (1-10)', validators=[InputRequired(), NumberRange(min=1, max=10)])
+    level_of_satisfaction = IntegerField('Level of Satisfaction (1-10)', validators=[InputRequired(), NumberRange(min=1, max=10)],render_kw={"placeholder": ""})
     notes = TextAreaField('Notes')
     submit = SubmitField('Record Shit')
 

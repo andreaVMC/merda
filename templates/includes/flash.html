@@ -1,0 +1,16 @@
+<!-- Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+		{% for category, message in messages %}
+			<div id="alertbanner" class="{{ category }}">
+				<p id="alertmessage"><i class="fa-solid fa-circle-exclamation"></i> {{ message }}</p>
+			</div>
+			<script>
+				document.getElementById("alertbanner").style.animation = "showAlert 0.5s ease-in-out forwards";
+				document.getElementById("alertbanner").addEventListener("click", function() {
+					document.getElementById("alertbanner").style.animation = "hideAlert 0.5s ease-in-out forwards";
+				});
+			</script>
+		{% endfor %}
+{% endif %}
+{% endwith %} 
