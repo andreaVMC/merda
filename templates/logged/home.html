@@ -43,98 +43,103 @@
     <div class="container mt-5">
         <h1 class="mb-4">{{user.nickname}}'s shit feed</h1>
 
-        <!-- new modal -->
-        <div id="new-modal" class="modal">
-            <div class="modal-inner">
-                <span class="btn text modal-close" onclick="closeModal('new-modal')">&times;</span>
-                <h2>Record new shit</h2>
-                <div style="margin: 25px; width: min(100%, 600px);">
-                    <form method="POST" action="{{ url_for('new_shit') }}" class="basic-form">
-                        {{ form.csrf_token }}
+<!-- new modal -->
+<div id="new-modal" class="modal">
+    <div class="modal-inner">
+        <span class="btn text modal-close" onclick="closeModal('new-modal')">&times;</span>
+        <h2>Record new shit</h2>
+        <div style="margin: 25px; width: min(100%, 600px);">
+            <form method="POST" action="{{ url_for('new_shit') }}" class="basic-form">
+                {{ form.csrf_token }}
 
-                        <!-- da aggiungere backend -->
-                        <div class="two-inputs-container" style="grid-template-columns: 30% 70%;">
+                <!-- Two-input container for time and rating fields -->
+                <div class="two-inputs-container" style="grid-template-columns: 30% 70%;">
 
-                            <div class="material-textfield">
-                                <input type="time" name="time" placeholder="">
-                                <label>Time</label>
-                            </div>
+                    <div class="material-textfield">
+                        {{ form.created_at.label }}
+                        {{ form.created_at(id='created_at', class_='datetime-local') }}
+                    </div>                    
 
-                            <!--div class="material-textfield">
-                                {{ form.level_of_satisfaction }}
-                                {{ form.level_of_satisfaction.label }}
-                            </div-->
-                            <div class="rating-field">
-                                <div class="feedback">
-                                    <div class="rating">
-                                    <input type="radio" name="rating" id="rating-5">
-                                    <label for="rating-5"></label>
-                                    <input type="radio" name="rating" id="rating-4">
-                                    <label for="rating-4"></label>
-                                    <input type="radio" name="rating" id="rating-3">
-                                    <label for="rating-3"></label>
-                                    <input type="radio" name="rating" id="rating-2">
-                                    <label for="rating-2"></label>
-                                    <input type="radio" name="rating" id="rating-1">
-                                    <label for="rating-1"></label>
-                                    </div>
-                                </div>
+                    <div class="rating-field">
+                        <div class="feedback">
+                            <div class="rating">
+                                <input type="radio" name="level_of_satisfaction" id="rating-5" value="5">
+                                <label for="rating-5"></label>
+                                <input type="radio" name="level_of_satisfaction" id="rating-4" value="4">
+                                <label for="rating-4"></label>
+                                <input type="radio" name="level_of_satisfaction" id="rating-3" value="3">
+                                <label for="rating-3"></label>
+                                <input type="radio" name="level_of_satisfaction" id="rating-2" value="2">
+                                <label for="rating-2"></label>
+                                <input type="radio" name="level_of_satisfaction" id="rating-1" value="1">
+                                <label for="rating-1"></label>
                             </div>
                         </div>
-
-<!-- TODO fix center and overflow -->
-                        <div style="display: flex;" id="more-change">
-
-                            <button class="btn text" id="more-btn" style="width: 50%; position: absolute; left: 0;">More options</button>
-
-                            <script>
-                                $('#more-btn').click(function() {
-                                    $('.more').slideToggle();
-                                    $('#more-btn').text(function(i, text){
-                                        return text === "More options" ? "Less options" : "More options";
-                                    });
-                                    $('#more-change').css('display', function(){
-                                        return $('#more-change').css('display') === 'flex' ? 'block' : 'flex';
-                                    });
-                                });
-                            </script>
-
-                            <div class="more" style="display: none;">
-
-                                <div style="height: 200px;"></div> <!-- temp -->
-
-                                <div class="material-textfield">
-                                    {{ form.shape }}
-                                    {{ form.shape.label }}
-                                </div>
-                                <div class="material-textfield">
-                                    {{ form.quantity }}
-                                    {{ form.quantity.label }}
-                                </div>
-                                <div class="material-textfield">
-                                    {{ form.colorID }}
-                                    {{ form.colorID.label }}
-                                </div>
-                                <div class="material-textfield">
-                                    {{ form.dimension }}
-                                    {{ form.dimension.label }}
-                                </div>
-                                <div class="material-textfield">
-                                    {{ form.notes }}
-                                    {{ form.notes.label }}
-                                </div>
-
-                                <div style="height: 200px;"></div>
-
-                            </div>
-                            
-                            <button type="submit" class="btn filled" style="width: 50%; position: absolute; right: 0;">Submit</button></div>
-
-                            </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+
+                <!-- More options button and script -->
+                <div style="display: flex;" id="more-change">
+
+                    <button type="button" class="btn text" id="more-btn" style="width: 50%; position: absolute; left: 0;">More options</button>
+
+                    <script>
+                        $('#more-btn').click(function(event) {
+                            event.preventDefault(); // Prevent the form from submitting
+                            $('.more').slideToggle();
+                            $('#more-btn').text(function(i, text){
+                                return text === "More options" ? "Less options" : "More options";
+                            });
+                            $('#more-change').css('display', function(){
+                                return $('#more-change').css('display') === 'flex' ? 'block' : 'flex';
+                            });
+                        });
+
+                        // Set default value for created_at
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            const now = new Date();
+                            const year = now.getFullYear();
+                            const month = String(now.getMonth() + 1).padStart(2, '0');
+                            const day = String(now.getDate()).padStart(2, '0');
+                            const hours = String(now.getHours()).padStart(2, '0');
+                            const minutes = String(now.getMinutes()).padStart(2, '0');
+                            const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+                            document.getElementById('created_at').value = formattedDateTime;
+                        });
+
+                    </script>
+
+                    <div class="more" style="display: none;">
+
+                        <div class="material-textfield">
+                            {{ form.shape.label }}
+                            {{ form.shape() }}
+                        </div>
+                        <div class="material-textfield">
+                            {{ form.quantity.label }}
+                            {{ form.quantity() }}
+                        </div>
+                        <div class="material-textfield">
+                            {{ form.colorID.label }}
+                            {{ form.colorID() }}
+                        </div>
+                        <div class="material-textfield">
+                            {{ form.dimension.label }}
+                            {{ form.dimension() }}
+                        </div>
+                        <div class="material-textfield">
+                            {{ form.notes.label }}
+                            {{ form.notes() }}
+                        </div>
+
+                    </div>
+                    
+                    <button type="submit" class="btn filled" style="width: 50%; position: absolute; right: 0;">Submit</button>
+                </div>
+            </form>
         </div>
+    </div>
+</div>
 
 
 <!-- TODO card bg color based on selected shit color -->

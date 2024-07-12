@@ -3,7 +3,7 @@ from flask import Flask, render_template, url_for, flash, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, DateField, DecimalField, SelectField, IntegerField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, DateField, DecimalField, SelectField, IntegerField, TextAreaField, DateTimeLocalField
 from wtforms.validators import InputRequired, Length, Email, ValidationError, Optional, NumberRange
 
 from flask_bcrypt import Bcrypt
@@ -13,7 +13,7 @@ from flask_bcrypt import Bcrypt
 db = SQLAlchemy()
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:a@localhost:5432/shit_app'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres@localhost:5432/shit_app'
 app.config['SECRET_KEY'] = 'a'
 db.init_app(app)
 
@@ -31,6 +31,7 @@ def load_user(user_id):
 def unauthorized():
     flash('Please log in to access this page.', 'danger')
     return redirect(url_for('login'))
+
 ### DB MODEL CLASSES ###
 
 class User(db.Model, UserMixin):
@@ -53,22 +54,25 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255), nullable=False)
     name = db.Column(db.String(50), nullable=False)
     surname = db.Column(db.String(50), nullable=False)
-    sex = db.Column(db.String(1), nullable=True, 
-                    check_constraint='sex IN (\'M\', \'F\')')
+    sex = db.Column(db.String(1), nullable=True)
     date_of_birth = db.Column(db.Date, nullable=True)
-    weight = db.Column(db.Numeric(5, 2), nullable=True, 
-                       check_constraint='weight >= 0')
+    weight = db.Column(db.Numeric(5, 2), nullable=True)
+    
+    __table_args__ = (
+        db.CheckConstraint('sex IN (\'M\', \'F\')', name='sex_check'),
+        db.CheckConstraint('weight >= 0', name='weight_check'),
+    )
     
 
 class Shit(db.Model):
     __tablename__ = 'shit'
     
     id = db.Column(db.Integer, primary_key=True)
-    shape = db.Column(db.Integer, nullable=False, check_constraint='shape >= 1 AND shape <= 7')
-    quantity = db.Column(db.Integer, nullable=False, check_constraint='quantity >= 0 AND quantity <= 10')
+    shape = db.Column(db.Integer, nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
     colorID = db.Column(db.Integer, db.ForeignKey('shit_color.id'), nullable=False)
-    dimension = db.Column(db.Integer, nullable=False, check_constraint='dimension >= 0 AND dimension <= 10')
-    level_of_satisfaction = db.Column(db.Integer, nullable=False, check_constraint='level_of_satisfaction >= 0 AND level_of_satisfaction <= 10')
+    dimension = db.Column(db.Integer, nullable=False)
+    level_of_satisfaction = db.Column(db.Integer, nullable=False)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     notes = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.now)
@@ -77,11 +81,11 @@ class Shit(db.Model):
     user = db.relationship('User', backref='shits')
     color = db.relationship('ShitColor', backref='shits')
 
-    
     __table_args__ = (
+        db.CheckConstraint('shape >= 1 AND shape <= 7', name='shape_check'),
         db.CheckConstraint('quantity >= 0 AND quantity <= 10', name='quantity_check'),
-        db.CheckConstraint('dimension >= 0 AND dimension <= 10', name='dimension_check'),
-        db.CheckConstraint('level_of_satisfaction >= 0 AND level_of_satisfaction <= 10', name='level_of_satisfaction_check'),
+        db.CheckConstraint('dimension >= 1 AND dimension <= 10', name='dimension_check'),
+        db.CheckConstraint('level_of_satisfaction >= 1 AND level_of_satisfaction <= 10', name='level_of_satisfaction_check'),
     )
 
     user = db.relationship('User', backref=db.backref('shits', cascade='all, delete-orphan'))
@@ -154,7 +158,7 @@ class ShitForm(FlaskForm):
         ('6', 'Type 6: Fluffy pieces with ragged edges, a mushy stool'),
         ('7', 'Type 7: Watery, no solid pieces (entirely liquid)'),
     ], validators=[InputRequired()])
-    quantity = IntegerField('Quantity', validators=[InputRequired(), NumberRange(min=0, max=10)],render_kw={"placeholder": ""})
+    quantity = IntegerField('Quantity', validators=[InputRequired(), NumberRange(min=0, max=10)], render_kw={"placeholder": ""})
     colorID = SelectField('Color', choices=[
         ('1', 'Black'),
         ('2', 'Brown'),
@@ -164,9 +168,11 @@ class ShitForm(FlaskForm):
         ('6', 'White'),
     ], validators=[InputRequired()])
     dimension = IntegerField('Dimension (1-10)', validators=[InputRequired(), NumberRange(min=1, max=10)])
-    level_of_satisfaction = IntegerField('Level of Satisfaction (1-10)', validators=[InputRequired(), NumberRange(min=1, max=10)],render_kw={"placeholder": ""})
+    level_of_satisfaction = IntegerField('Level of Satisfaction (1-10)', validators=[InputRequired(), NumberRange(min=1, max=10)], render_kw={"placeholder": ""})
     notes = TextAreaField('Notes')
+    created_at = DateTimeLocalField('Created At', format='%Y-%m-%dT%H:%M', validators=[InputRequired()])
     submit = SubmitField('Record Shit')
+
 
 ### ROUTES ###
 
@@ -250,10 +256,11 @@ def home():
 @app.route('/new_shit', methods=["POST"])
 @login_required
 def new_shit():
-    # shit recording management
     form = ShitForm()
+    
     if form.validate_on_submit():
-        # Create a new Shit record and save it to the database
+        created_at = form.created_at.data if form.created_at.data else datetime.now()
+
         shit = Shit(
             shape=form.shape.data,
             quantity=form.quantity.data,
@@ -261,12 +268,17 @@ def new_shit():
             dimension=form.dimension.data,
             level_of_satisfaction=form.level_of_satisfaction.data,
             userID=current_user.id,
-            notes=form.notes.data
+            notes=form.notes.data,
+            created_at=created_at
         )
         db.session.add(shit)
         db.session.commit()
-        flash('Registration successful!', 'success')  # Flash success message
+        flash('Shit registration successful!', 'success')  # Flash success message
         return redirect(url_for('home'))
+    
+    print(form.errors)
+    flash('Shit registration not successful!', 'error')  # Flash error message
+    return redirect(url_for('home'))
 
 @app.route('/logout')
 @login_required
