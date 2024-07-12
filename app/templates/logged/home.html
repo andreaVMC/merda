@@ -49,7 +49,7 @@
         <span class="btn text modal-close" onclick="closeModal('new-modal')">&times;</span>
         <h2>Record new shit</h2>
         <div style="margin: 25px; width: min(100%, 600px);">
-            <form method="POST" action="{{ url_for('new_shit') }}" class="basic-form">
+            <form method="POST" action="{{ url_for('api.new_shit') }}" class="basic-form">
                 {{ form.csrf_token }}
 
                 <!-- Two-input container for time and rating fields -->

@@ -31,7 +31,7 @@
 	<div class="main-container"><div class="main flex-center" style="margin-top: 69px;">
 		<h1>Register</h1>
 	<div style="margin: 25px; width: min(100%, 600px);">
-		<form method="POST" action="{{ url_for('register') }}" class="basic-form">
+		<form method="POST" action="{{ url_for('auth.register') }}" class="basic-form">
 
 			{{ form.hidden_tag() }}
 			<div class="material-textfield">
