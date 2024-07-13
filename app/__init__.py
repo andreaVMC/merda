@@ -21,12 +21,13 @@ def create_app():
 
     with app.app_context():
         from .models import User
-        from .routes import auth, main, user, api
+        from .routes import auth, main, user, api, team
 
         app.register_blueprint(auth.bp)
         app.register_blueprint(main.bp)
         app.register_blueprint(user.bp)
         app.register_blueprint(api.bp)
+        app.register_blueprint(team.bp)
 
         db.create_all()
 

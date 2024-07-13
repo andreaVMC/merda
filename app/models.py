@@ -3,6 +3,7 @@ from datetime import datetime
 from . import db
 from flask_login import UserMixin
 
+
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
 
@@ -20,6 +21,7 @@ class User(db.Model, UserMixin):
         db.CheckConstraint('sex IN (\'M\', \'F\')', name='sex_check'),
         db.CheckConstraint('weight >= 0', name='weight_check'),
     )
+
 
 class Shit(db.Model):
     __tablename__ = 'shit'
@@ -44,8 +46,26 @@ class Shit(db.Model):
         db.CheckConstraint('level_of_satisfaction >= 1 AND level_of_satisfaction <= 10', name='level_of_satisfaction_check'),
     )
 
+
 class ShitColor(db.Model):
     __tablename__ = 'shit_color'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
+    color = db.Column(db.String(50), nullable=False)
+
+
+class Team(db.Model):
+    __tablename__ = 'team'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False)
+
+
+class UserTeam(db.Model):
+    __tablename__ = 'user_team'
+
+    userID = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'), primary_key=True)
+    teamID = db.Column(db.Integer, db.ForeignKey('team.id', ondelete='CASCADE'), primary_key=True)
+
+    user = db.relationship('User', backref=db.backref('user_teams', cascade='all, delete-orphan'))
+    team = db.relationship('Team', backref=db.backref('user_teams', cascade='all, delete-orphan'))
