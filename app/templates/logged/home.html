@@ -146,7 +146,7 @@
 
         <h2>How're your friends doing?</h2>
         <div class="shit-list">
-            {% for shit, user in shits %}
+            {% for shit, user, teams in shits %}
             <div class="shit-card">
                 <p>
                     Shape: 
@@ -174,6 +174,17 @@
                 <p>Dimension: {{ shit.dimension }}</p>
                 <p>Level of Satisfaction: {{ shit.level_of_satisfaction }}</p>
                 <p>Timestamp: {{ shit.created_at }}</p> 
+                <p>
+                    Teams:
+                    {% if teams %}
+                        {% for team in teams %}
+                            <a href="/team/{{ team.id }}" style="border:1px solid black">{{ team.name }}</a>
+                        {% endfor %}
+                    {% else %}
+                        No Team
+                    {% endif %}
+          
+                </p>
                 <p class="user-info">User: {{ user.nickname }} ({{ user.email }})</p>
                 <p class="shit-notes">Notes: {{ shit.notes }}</p>
             </div>
