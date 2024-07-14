@@ -16,19 +16,17 @@
 <body>
     {% include 'logged/includes/sidebar.html' %}
 
-    <h1>{{ team_info.name }}</h1>
-
-    <form action="/team/{{ team_info.id }}/join" method="post">
-        <button type="submit">Join this team</button>
+    <h1>Create Team</h1>
+    <form method="POST">
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+        {{ form.name.label(class="form-label") }}
+        {{ form.name(class="form-control") }}
+        {% for error in form.name.errors %}
+          <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+      </div>
+      <button type="submit" class="btn btn-primary">Create Team</button>
     </form>
-    <form action="/team/{{ team_info.id }}/leave" method="post">
-        <button type="submit">Leave this team</button>
-    </form>
-
-    <p>
-        {{ team_info }}
-    </p>
-
-    <p><a href="/team/">All teams</a></p>
 </body>
 </html>

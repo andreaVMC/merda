@@ -49,3 +49,7 @@ class ShitForm(FlaskForm):
     notes = TextAreaField('Notes')
     created_at = DateTimeLocalField('Created At', format='%Y-%m-%dT%H:%M', validators=[InputRequired()])
     submit = SubmitField('Record Shit')
+
+class TeamCreateForm(FlaskForm):
+    name = StringField('Team Name', validators=[InputRequired(), Length(min=2, max=100)])
+    submit = SubmitField('Create Team')

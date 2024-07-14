@@ -16,19 +16,11 @@
 <body>
     {% include 'logged/includes/sidebar.html' %}
 
-    <h1>{{ team_info.name }}</h1>
-
-    <form action="/team/{{ team_info.id }}/join" method="post">
-        <button type="submit">Join this team</button>
-    </form>
-    <form action="/team/{{ team_info.id }}/leave" method="post">
-        <button type="submit">Leave this team</button>
-    </form>
-
-    <p>
-        {{ team_info }}
-    </p>
-
-    <p><a href="/team/">All teams</a></p>
+    <h1>All teams</h1>
+    <ul>
+        {% for team in teams %}
+            <li><a href="/team/{{ team.id }}" style="border:1px solid black">{{ team.name }}</a></li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
