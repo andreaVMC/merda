@@ -1,34 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings · MERDA!</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/color.css') }}">
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/95ae55bd9a.js" crossorigin="anonymous"></script>
-    <!-- Material Icon -->
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <!-- jQuery 3.6.0 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-</head>
-<body>
-    {% include 'logged/includes/sidebar.html' %}
+{% extends "base.html" %}
 
-    <h1>{{ team_info.name }}</h1>
+{% block title %}
+{{ team_info.name }}
+{% endblock %}
 
-    <form action="/team/{{ team_info.id }}/join" method="post">
-        <button type="submit">Join this team</button>
-    </form>
-    <form action="/team/{{ team_info.id }}/leave" method="post">
-        <button type="submit">Leave this team</button>
-    </form>
 
-    <p>
-        {{ team_info }}
-    </p>
+{% block content %}
 
-    <p><a href="/team/">All teams</a></p>
-</body>
-</html>
+
+<p><a href="/team/">All teams</a></p>
+
+<form action="/team/{{ team_info.id }}/join" method="post">
+    <button type="submit">Join this team</button>
+</form>
+<form action="/team/{{ team_info.id }}/leave" method="post">
+    <button type="submit">Leave this team</button>
+</form>
+
+<p>
+    {{ team_info }}
+</p>
+
+{% endblock %}
