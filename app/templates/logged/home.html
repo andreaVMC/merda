@@ -164,7 +164,7 @@
             {% endif %}
     
         </p>
-        <p class="user-info">User: {{ user.nickname }} ({{ user.email }})</p>
+        <p class="user-info">User: <a href="/user/{{ user.id }}" style="border: 1px solid black">{{ user.nickname }} ({{ user.email }})</a></p>
         <p class="shit-notes">Notes: {{ shit.notes }}</p>
     </div>
     {% endfor %}

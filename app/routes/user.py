@@ -34,7 +34,7 @@ def user_follow(user_id):
     
     if user_to_follow == current_user:
         flash('You cannot follow yourself!', 'warning')
-        return redirect(url_for('main.home', user_id=user_id))
+        return redirect(url_for('user.user', user_id=user_id))
     
     if not current_user.is_following(user_to_follow):
         follow = Followers(follower=current_user.id, followee=user_to_follow.id)
