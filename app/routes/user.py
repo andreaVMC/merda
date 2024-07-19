@@ -25,3 +25,13 @@ def user(user_id):
         return 'Team not found 404'
 
     return str(user_data.__dict__)
+
+@bp.route("/user/<int:user_id>/follow", methods=['GET'])
+@login_required
+def user_follow(user_id):
+    return "TODO"
+
+@bp.route("/user/<int:user_id>/unfollow", methods=['GET'])
+@login_required
+def user_unfollow(user_id):
+    return "TODO"

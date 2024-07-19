@@ -62,7 +62,8 @@ CREATE TABLE "user_team" (
     PRIMARY KEY ("userID", "teamID")
 );
 
-
-
-
-
+CREATE TABLE "followers" (
+    "follower" INT REFERENCES "user"(id) ON DELETE CASCADE,
+    "followee" INT REFERENCES "user"(id) ON DELETE CASCADE,
+    PRIMARY KEY ("follower", "followee")
+);
