@@ -34,8 +34,8 @@ class ShitForm(FlaskForm):
         ('5', 'Type 5: Soft blobs with clear-cut edges (passed easily)'),
         ('6', 'Type 6: Fluffy pieces with ragged edges, a mushy stool'),
         ('7', 'Type 7: Watery, no solid pieces (entirely liquid)'),
-    ], validators=[InputRequired()])
-    quantity = IntegerField('Quantity', validators=[InputRequired(), NumberRange(min=0, max=10)], render_kw={"placeholder": ""})
+    ], render_kw={"class": "select-text"})
+    quantity = IntegerField('Quantity', validators=[NumberRange(min=0, max=10)], render_kw={"placeholder": ""})
     colorID = SelectField('Color', choices=[
         ('1', 'Black'),
         ('2', 'Brown'),
@@ -43,11 +43,11 @@ class ShitForm(FlaskForm):
         ('4', 'Yellow'),
         ('5', 'Red'),
         ('6', 'White'),
-    ], validators=[InputRequired()])
-    dimension = IntegerField('Dimension (1-10)', validators=[InputRequired(), NumberRange(min=1, max=10)])
-    level_of_satisfaction = IntegerField('Level of Satisfaction (1-10)', validators=[InputRequired(), NumberRange(min=1, max=10)], render_kw={"placeholder": ""})
-    notes = TextAreaField('Notes')
-    created_at = DateTimeLocalField('Created At', format='%Y-%m-%dT%H:%M', validators=[InputRequired()])
+    ], render_kw={"class": "select-text"})
+    dimension = IntegerField('Dimension (1-10)', validators=[NumberRange(min=1, max=10)])
+    level_of_satisfaction = IntegerField('Level of Satisfaction (1-10)', validators=[NumberRange(min=1, max=10)], render_kw={"placeholder": ""})
+    notes = TextAreaField('Notes', render_kw={"placeholder": ""})
+    created_at = DateTimeLocalField('Created At', format='%Y-%m-%dT%H:%M')
     submit = SubmitField('Record Shit')
 
 class TeamCreateForm(FlaskForm):

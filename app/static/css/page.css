@@ -38,6 +38,61 @@
     gap: 25px;
 }
 
+/*** TEXT FIELD ***/
+.material-textfield {
+	position: relative;
+}
+
+.material-textfield label {
+	position: absolute;
+	font-size: 1rem;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	background-color: var(--surface);
+	color: var(--muted);
+	padding: 0 0.3rem;
+	margin: 0 0.5rem;
+	transition: .1s ease-out;
+	transform-origin: left top;
+	pointer-events: none;
+	border-radius: 10px;
+}
+
+.material-textfield input, .material-textfield textarea {
+	font-size: 1rem;
+	border: 0;
+	outline: 1px solid var(--muted);
+	border-radius: 10px;
+	padding: 1rem 0.7rem;
+	color: var(--on-surface);
+	transition: 0.1s ease-out;
+	background-color: var(--surface);
+}
+
+.material-textfield textarea {
+	width: calc(100% - 1.5rem); /* width - padding */
+}
+
+.material-textfield input:focus, .material-textfield textarea:focus {
+	outline-color: var(--on-surface-primary);
+}
+
+.material-textfield input:focus+label, .material-textfield textarea:focus+label {
+	color: var(--on-surface-primary);
+	top: 0;
+	transform: translateY(-50%) scale(.9);
+}
+
+.material-textfield input:not(:placeholder-shown)+label, .material-textfield textarea:not(:placeholder-shown)+label {
+	top: 0;
+	transform: translateY(-50%) scale(.9);
+}
+
+.material-textfield input::placeholder, .material-textfield textarea::placeholder {
+	text-transform: initial;
+}
+
 .basic-form .material-textfield input:focus{
     outline-color: var(--on-surface-primary);
 }
@@ -146,11 +201,11 @@ input:focus + label + #PSWShowHideIcon i{
 	top: 0px;
 	transition: 0.2s ease all;
     transform: translateY(-50%) scale(.9);
-}
+}/*
 .select-text:valid ~ .select-label{
     top: 0px;
     transform: translateY(-50%) scale(.9);
-}
+}*/
 .select:focus-within:after {
     border-top-color: var(--on-surface-primary);
 }

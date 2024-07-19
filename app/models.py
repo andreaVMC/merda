@@ -33,10 +33,10 @@ class Shit(db.Model):
     __tablename__ = 'shit'
 
     id = db.Column(db.Integer, primary_key=True)
-    shape = db.Column(db.Integer, nullable=False)
-    quantity = db.Column(db.Integer, nullable=False)
-    colorID = db.Column(db.Integer, db.ForeignKey('shit_color.id'), nullable=False)
-    dimension = db.Column(db.Integer, nullable=False)
+    shape = db.Column(db.Integer)
+    quantity = db.Column(db.Integer)
+    colorID = db.Column(db.Integer, db.ForeignKey('shit_color.id'))
+    dimension = db.Column(db.Integer)
     level_of_satisfaction = db.Column(db.Integer, nullable=False)
     userID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     notes = db.Column(db.Text)

@@ -358,23 +358,25 @@ code, .mono{
 
 
 .main-container {
-	background-color: var(--surface);
-	width: 100%;
-	min-height: 100vh;
-	min-height: 100dvh;
-	display: flex;
-	flex-direction: column;
-    align-items: center;
-	color: var(--on-surface);
+    padding-left: 88px;
+    background-color: var(--surface);
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    color: var(--on-surface);
 }
 
 .main {
-	max-width: 980px;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	/*align-items: center;*/
+    padding: 0 15%;
+    max-width: 980px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
 .main .material-symbols-outlined{
 	font-size: 1rem;
 }
@@ -463,57 +465,6 @@ code, .mono{
 }
 
 /******/
-
-/*** TEXT FIELD ***/
-.material-textfield {
-	position: relative;
-}
-
-.material-textfield label {
-	position: absolute;
-	font-size: 1rem;
-	left: 0;
-	top: 50%;
-	transform: translateY(-50%);
-	background-color: var(--surface);
-	color: var(--muted);
-	padding: 0 0.3rem;
-	margin: 0 0.5rem;
-	transition: .1s ease-out;
-	transform-origin: left top;
-	pointer-events: none;
-	border-radius: 10px;
-}
-
-.material-textfield input {
-	font-size: 1rem;
-	border: 0;
-	outline: 1px solid var(--muted);
-	border-radius: 10px;
-	padding: 1rem 0.7rem;
-	color: var(--on-surface);
-	transition: 0.1s ease-out;
-	background-color: var(--surface);
-}
-
-.material-textfield input:focus {
-	outline-color: var(--on-primary);
-}
-
-.material-textfield input:focus+label {
-	color: var(--on-primary);
-	top: 0;
-	transform: translateY(-50%) scale(.9);
-}
-
-.material-textfield input:not(:placeholder-shown)+label {
-	top: 0;
-	transform: translateY(-50%) scale(.9);
-}
-
-.material-textfield input::placeholder {
-	text-transform: initial;
-}
 
 .sidebar-menu{
 	display: none;
