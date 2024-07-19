@@ -1,1 +1,13 @@
-<!-- todo frontend -->
+{% extends "base.html" %}
+
+{% block title %}
+All users
+{% endblock %}
+
+{% block content %}
+<ul>
+    {% for user in users %}
+        <li><a href="/user/{{ user.id }}" style="border:1px solid black">{{ user.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

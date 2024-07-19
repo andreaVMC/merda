@@ -22,6 +22,12 @@ class User(db.Model, UserMixin):
         db.CheckConstraint('weight >= 0', name='weight_check'),
     )
 
+    def is_following(self, user):
+        return Followers.query.filter(
+            Followers.follower == self.id, 
+            Followers.followee == user.id
+        ).count() > 0
+
 
 class Shit(db.Model):
     __tablename__ = 'shit'
@@ -69,3 +75,8 @@ class UserTeam(db.Model):
 
     user = db.relationship('User', backref=db.backref('user_teams', cascade='all, delete-orphan'))
     team = db.relationship('Team', backref=db.backref('user_teams', cascade='all, delete-orphan'))
+
+
+class Followers(db.Model):
+    follower = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    followee = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)

@@ -1,1 +1,24 @@
-<!-- todo frontend -->
+{% extends "base.html" %}
+
+{% block title %}
+{{ user.name }}
+{% endblock %}
+
+
+{% block content %}
+
+
+<p><a href="/user/">All users</a></p>
+
+<form action="/user/{{ user.id }}/follow" method="get">
+    <button type="submit">Follow this user</button>
+</form>
+<form action="/user/{{ user.id }}/unfollow" method="get">
+    <button type="submit">Unfollow this user</button>
+</form>
+
+<p>
+    {{ user.__dict__ }}
+</p>
+
+{% endblock %}
