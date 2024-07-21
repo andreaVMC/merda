@@ -1,5 +1,5 @@
 # Merda.
-Se avete bisogno di supporto chiedete a Matte (Kev non sa neanche da che parte è girato).
+Se avete bisogno di supporto chiedete a Matte (Kev se la sta chillando di brutto).
 
 ### Come eseguire
 1. Clonare repo - comando: ```git clone https://github.com/kev1nl1u/merda/new/main```
