@@ -1,6 +1,7 @@
 # project/app/routes/user.py
 from flask import Blueprint, render_template, redirect, flash, url_for
 from flask_login import login_required, current_user
+from app.forms import ShitForm
 from app.models import User, Followers
 from app import db
 
@@ -9,7 +10,8 @@ bp = Blueprint('user', __name__)
 @bp.route("/settings")
 @login_required
 def settings():
-    return render_template("logged/settings.html")
+    form = ShitForm()
+    return render_template("logged/settings.html", form=form)
 
 @bp.route("/user/", methods=['GET'])
 @login_required

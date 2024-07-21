@@ -356,27 +356,6 @@ code, .mono{
 	transition: cubic-bezier(0.75, 0.25, 0.05, .75); /* TODO cambiare con animazione gmp  */
 }
 
-
-.main-container {
-    padding-left: 88px;
-    background-color: var(--surface);
-    width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
-    display: flex;
-    justify-content: center;
-    color: var(--on-surface);
-}
-
-.main {
-    padding: 0 15%;
-    max-width: 980px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .main .material-symbols-outlined{
 	font-size: 1rem;
 }

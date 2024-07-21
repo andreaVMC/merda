@@ -1,0 +1,22 @@
+/* STYLES FOR LOGGED IN USERS */
+
+
+.main-container {
+    padding-left: 88px;
+    background-color: var(--surface);
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    color: var(--on-surface);
+}
+
+.main {
+    padding: 0 15%;
+    max-width: 980px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

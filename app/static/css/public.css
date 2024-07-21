@@ -1,3 +1,6 @@
+/* STYLES FOR PUBLIC PAGES */
+
+
 @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Permanent+Marker&family=Seymour+One&display=swap');
 
 .c80vh{
@@ -120,3 +123,27 @@
         fill: var(--surface);
     }
 }
+
+.main-container {
+	background-color: var(--surface);
+	width: 100%;
+	min-height: 100vh;
+	min-height: 100dvh;
+	display: flex;
+	flex-direction: column;
+    align-items: center;
+	color: var(--on-surface);
+}
+
+.main {
+	max-width: 980px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	/*align-items: center;*/
+}
+
+.main .material-symbols-outlined{
+	font-size: 1rem;
+}
+

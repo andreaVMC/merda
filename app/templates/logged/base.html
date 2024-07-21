@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/color.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/page.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/public.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/alertbanner.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/private.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/95ae55bd9a.js" crossorigin="anonymous"></script>
     <!-- Material Icon -->
@@ -17,23 +17,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-
-    <nav class="navbar">
-        <div class="navbar-inner"><a class="logo" href="/"><img src="/img/nav-logo.png"></a><a class="hamburger"><span class="line"></span><span class="line"></span><span class="line"></span></a>
-            <div class="nav-links">
-                <ul>
-                    <li><a href="/register" class="spanHighlight">Sign Up</a></li>
-                    <li><a href="/login" class="spanHighlight">Log In</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-
-    {% block content %}
-        {# Template inserted here #}
-    {% endblock %}
-
+    
+    {% include '/logged/includes/sidebar.html' %}
+    
+    <div class="main-container">
+        <div class="main">
 
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -51,6 +39,8 @@
     {% endif %}
     {% endwith %} 
 
-</body>
+    <h1>{{ self.title() }}</h1>
 
-</html>
+    {% block content %}
+        {# Template inserted here #}
+    {% endblock %}
