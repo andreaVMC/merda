@@ -1,5 +1,5 @@
 # project/app/__init__.py
-from flask import Flask, flash, redirect, url_for
+from flask import Flask, flash, redirect, url_for, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
@@ -30,6 +30,12 @@ def create_app():
         app.register_blueprint(team.bp)
 
         db.create_all()
+
+
+    @app.errorhandler(404) 
+    def not_found(e): 
+        return render_template("404.html") 
+
 
     return app
 

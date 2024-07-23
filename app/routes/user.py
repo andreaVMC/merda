@@ -27,9 +27,9 @@ def update_user():
     # Retrieve user ID from the form
     user_id = request.form.get('id')
     user = User.query.get(user_id)
-    
+
     if not user:
-        return "User not found", 404
+        return "User not found"
 
     # Update user attributes from form data
     user.nickname = request.form.get('nickname')

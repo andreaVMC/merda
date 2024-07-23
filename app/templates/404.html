@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+404 page not found
+{% endblock %}
+
+
+{% block content %}
+
+
+<style>
+    p {
+      font-family: sans-serif;
+      white-space: pre-line;
+    }
+    .not-gay {
+        font-family: serif;
+        padding-top: 30px;
+    }
+</style>
+
+<p>...............…………………………._¸„„„„_
+    …………………….…………...„--~*'¯…….'\
+    ………….…………………… („-~~--„¸_….,/ì'Ì
+    …….…………………….¸„-^"¯ : : : : :¸-¯"¯/'
+    ……………………¸„„-^"¯ : : : : : : : '\¸„„,-"
+    **¯¯¯'^^~-„„„----~^*'"¯ : : : : : : : : : :¸-"
+    .:.:.:.:.„-^" : : : : : : : : : : : : : : : : :„-"
+    :.:.:.:.:.:.:.:.:.:.: : : : : : : : : : ¸„-^¯
+    .::.:.:.:.:.:.:.:. : : : : : : : ¸„„-^¯
+    :.' : : '\ : : : : : : : ;¸„„-~"
+    :.:.:: :"-„""***/*'ì¸'¯
+    :.': : : : :"-„ : : :"\
+    .:.:.: : : : :" : : : : \,
+    :.: : : : : : : : : : : : 'Ì
+    : : : : : : :, : : : : : :/
+    "-„_::::_„-*__„„~"</p>
+    <p>
+        Page not found
+        <br />
+        If you want, you can visit my personal website: <a href="http://www.matteobini.me" target="_blank">matteobini.me</a>.
+        <br />
+        If you want, you can get back to the Merda! website: <a href="{{ url_for('main.home') }}">Merda!</a>.
+        <br />
+        If you want, you can stay here looking at this penis.</a>
+    </p>
+
+{% endblock %}
