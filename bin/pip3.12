@@ -1,4 +1,4 @@
-#!/home/teo/Developer/merda/bin/python3
+#!/home/teo/Developer/merda/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

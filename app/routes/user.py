@@ -1,8 +1,8 @@
 # project/app/routes/user.py
-from flask import Blueprint, render_template, redirect, flash, url_for
+from flask import Blueprint, request, render_template, redirect, flash, url_for
 from flask_login import login_required, current_user
 from app.forms import ShitForm
-from app.models import User, Followers
+from app.models import User, Followers, Team, UserTeam
 from app import db
 
 bp = Blueprint('user', __name__)
@@ -11,7 +11,57 @@ bp = Blueprint('user', __name__)
 @login_required
 def settings():
     form = ShitForm()
-    return render_template("logged/settings.html", form=form)
+    user_id = current_user.id
+    user = User.query.get(user_id)
+
+    teams = Team.query.all()
+    all_users = User.query.all()
+
+    user_teams = [user_team.teamID for user_team in user.user_teams]
+    user_followers = [follower.follower for follower in Followers.query.filter_by(followee=user_id).all()]
+
+    return render_template('logged/settings.html', form=form, user=current_user, teams=teams, all_users=all_users, user_teams=user_teams, user_followers=user_followers)
+
+@bp.route('/update_user', methods=['POST'])
+def update_user():
+    # Retrieve user ID from the form
+    user_id = request.form.get('id')
+    user = User.query.get(user_id)
+    
+    if not user:
+        return "User not found", 404
+
+    # Update user attributes from form data
+    user.nickname = request.form.get('nickname')
+    user.email = request.form.get('email')
+    user.password = request.form.get('password')  # Ensure to hash the password in a real-world scenario
+    user.name = request.form.get('name')
+    user.surname = request.form.get('surname')
+    user.sex = request.form.get('sex')
+    user.date_of_birth = request.form.get('date_of_birth')
+    user.weight = request.form.get('weight')
+
+    # Commit changes to the user details
+    db.session.commit()
+
+    # Update teams
+    selected_team_ids = request.form.getlist('teams')
+    UserTeam.query.filter_by(userID=user_id).delete()
+    for team_id in selected_team_ids:
+        user_team = UserTeam(userID=user_id, teamID=int(team_id))
+        db.session.add(user_team)
+
+    # Update followers
+    selected_follower_ids = request.form.getlist('followers')
+    Followers.query.filter_by(followee=user_id).delete()
+    for follower_id in selected_follower_ids:
+        follower = Followers(follower=int(follower_id), followee=user_id)
+        db.session.add(follower)
+
+    # Commit changes to teams and followers
+    db.session.commit()
+
+    return redirect(url_for('user.settings'))
 
 @bp.route("/user/", methods=['GET'])
 @login_required
