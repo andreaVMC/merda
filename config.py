@@ -1,4 +1,10 @@
+from dotenv import load_dotenv
+import os
+
+
+
 class Config:
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:a@localhost:5432/shit_app'
+    load_dotenv()
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     SECRET_KEY = 'a'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
