@@ -13,7 +13,7 @@ def index():
 @bp.route('/home', methods=['GET'])
 @login_required
 def home():
-    form = ShitForm()
+    add_modal_form = ShitForm()
     shits_users = (
         db.session.query(Shit, User)
         .join(User, Shit.userID == User.id)
@@ -38,4 +38,4 @@ def home():
         shits.append((shit, user, teams))
     shits.reverse()
 
-    return render_template('logged/home.html', form=form, user=current_user, shits=shits)
+    return render_template('logged/home.html', add_modal_form=add_modal_form, user=current_user, shits=shits)

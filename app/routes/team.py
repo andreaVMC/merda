@@ -2,20 +2,23 @@ from flask import Blueprint, render_template, flash
 from flask_login import login_required, current_user
 from app.models import UserTeam, Team
 from app import db
-from app.forms import TeamCreateForm
+from app.forms import TeamCreateForm, ShitForm
 
 bp = Blueprint('team', __name__)
 
 @bp.route("/team/", methods=['GET'])
 @login_required
 def teams():
+    add_modal_form = ShitForm()
     teams = Team.query.all()
 
-    return render_template("logged/all_teams.html", teams=teams)
+    return render_template("logged/all_teams.html", 
+                           add_modal_form=add_modal_form, teams=teams)
 
 @bp.route("/team/<int:team_id>", methods=['GET'])
 @login_required
 def team(team_id):
+    add_modal_form = ShitForm()
 
     team_data = Team.query.get(team_id)
     if not team_data:
@@ -56,7 +59,8 @@ def team(team_id):
 
         team_info['users'].append(user_info)
 
-    return render_template("logged/team.html", team_info=team_info)
+    return render_template("logged/team.html", add_modal_form=add_modal_form, 
+                           team_info=team_info)
 
 @bp.route("/team/<int:team_id>/join", methods=['POST'])
 @login_required
@@ -89,6 +93,7 @@ def team_leave(team_id):
 @bp.route("/team/create", methods=['GET', 'POST'])
 @login_required
 def team_create():
+    add_modal_form = ShitForm()
     form = TeamCreateForm()
 
     if form.validate_on_submit():
@@ -103,4 +108,5 @@ def team_create():
             flash(f"Team '{form.name.data}' has been created successfully", 'success')
             return "TOP FRA E' ANDATO TUTTO OK"
 
-    return render_template('logged/team_create.html', form=form)
+    return render_template('logged/team_create.html', 
+                           add_modal_form=add_modal_form, form=form)

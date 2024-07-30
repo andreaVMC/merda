@@ -10,7 +10,7 @@ bp = Blueprint('user', __name__)
 @bp.route("/settings")
 @login_required
 def settings():
-    form = ShitForm()
+    add_modal_form = ShitForm()
     user_id = current_user.id
     user = User.query.get(user_id)
 
@@ -20,7 +20,7 @@ def settings():
     user_teams = [user_team.teamID for user_team in user.user_teams]
     user_followers = [follower.follower for follower in Followers.query.filter_by(followee=user_id).all()]
 
-    return render_template('logged/settings.html', form=form, user=current_user, teams=teams, all_users=all_users, user_teams=user_teams, user_followers=user_followers)
+    return render_template('logged/settings.html', add_modal_form=add_modal_form, user=current_user, teams=teams, all_users=all_users, user_teams=user_teams, user_followers=user_followers)
 
 @bp.route('/update_user', methods=['POST'])
 def update_user():
@@ -66,18 +66,22 @@ def update_user():
 @bp.route("/user/", methods=['GET'])
 @login_required
 def users():
+    add_modal_form = ShitForm()
     users = User.query.all()
 
-    return render_template("logged/all_users.html", users=users)
+    return render_template("logged/all_users.html", 
+                           add_modal_form=add_modal_form, users=users)
 
 @bp.route("/user/<int:user_id>", methods=['GET'])
 @login_required
 def user(user_id):
+    add_modal_form = ShitForm()
     user_data = User.query.get(user_id)
     if not user_data:
         return 'Team not found 404'
 
-    return render_template("logged/user.html", user=user_data)
+    return render_template("logged/user.html", add_modal_form=add_modal_form, 
+                           user=user_data)
 
 @bp.route("/user/<int:user_id>/follow", methods=['GET'])
 @login_required
@@ -105,7 +109,7 @@ def user_unfollow(user_id):
     
     if user_to_unfollow == current_user:
         flash('You cannot unfollow yourself!', 'warning')
-        return redirect(url_for('main.user_profile', user_id=user_id))
+        return redirect(url_for('user.user', user_id=user_id))
     
     if current_user.is_following(user_to_unfollow):
         Followers.query.filter_by(follower=current_user.id, followee=user_to_unfollow.id).delete()
